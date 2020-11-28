@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">TeamMatch</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_login">Iniciar Sesión</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="previous" translatable="false">Previous</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="swipe_left_for_register">Regístrate</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="password">Contraseña</string>
+    <string name="e_mail">Correo electrónico</string>
+    <string name="username_login">Nombre de usuario</string>
+    <string name="tag">Disfruta de la experiencia del deporte  Haz nuevos amigos y participa en tus eventos favoritos</string>
+    <string name="swipe_right_for_login">Iniciar Sesión</string>
+    <string name="register">Registro</string>
+    <string name="re_type_password">Confirmar contraseña</string>
+    <string name="your_name">Nombre de usuario</string>
+    <string name="idResultado">Resultado</string>
+    <string name="idIconoFutbol">Fútbol</string>
+    <string name="idIconoBaloncesto">Baloncesto</string>
+    <string name="idIconoVoleibol">Voleibol</string>
+    <string name="idIconoTenis">Tenis</string>
+    <string name="idBuscarPista">Seleccionar pista:</string>
+    <string name="idBuscarEventoCat">Busca tus eventos eligiendo tu deporte favorito:</string>
+    <string name="Nuevo_Evento">Nuevo Evento</string>
+    <string name="action_salir">Salir</string>
+    <string name="action_cerrar_sesion">Cerrar Sesión</string>
+    <string name="NOMBRE">Nombre</string>
+    <string name="CIUDAD">Ciudad</string>
+    <string name="CALLE">Calle</string>
+    <string name="VER_EN_MAPA">Ver ubicación</string>
+    <string name="ADD_TO_EVENTO">Añadir al evento</string>
+    <string name="PARTICIPANTES">Participantes</string>
+    <string name="title_activity_crear_equipo" translatable="false">CrearEquipoActivity</string>
+    <string name="NUEVO_EQUIPO">Nuevo Equipo</string>
+    <string name="NOMBRE_EQUIPO">Nombre del equipo</string>
+    <string name="NUM_MIEMBROS">Número de miembros</string>
+    <string name="DESCRIPCION_EQUIPO">Descripción del equipo</string>
+    <string name="CREAR">CREAR</string>
+    <string name="CANCELAR">CANCELAR</string>
+    <string name="action_share">Compartir</string>
+    <string name="search_hint" translatable="false">Partido futsal</string>
+    <string name="btnfutbol">Fútbol</string>
+    <string name="btnvoleibol">Voleibol</string>
+    <string name="btnbaloncesto">Baloncesto</string>
+    <string name="btntenis">Tenis</string>
+    <string name="search_title">Nombre del evento</string>
+    <string name="btn_edit">Editar evento</string>
+    <string name="btn_delete">Borrar Evento</string>
+    <string name="title_activity_event_details" translatable="false">ScrollingActivity</string>
+    <string name="textborrar">¿Deseas borrar tu perfil?</string>
+    <string name="repetircontrasena">Repetir Contraseña:</string>
+    <string name="nuevacontrasena">Nueva contraseña:</string>
+    <string name="Borrarusuario">Borrar usuario</string>
+    <string name="guardarusuario">Guardar cambios</string>
+    <string name="Miperfil">Mi Perfil</string>
+    <string name="editperfil">Editar Perfil</string>
+    <string name="Eventoscreados">Eventos creados:</string>
+    <string name="Eventosparticipantes">Eventos en los que participas:</string>
+    <string name="seleccionarpista">Selecciona la pista donde se celebrara su evento:</string>
+    <string name="nparticipantes">Número de participantes:</string>
+    <string name="lugar">Lugar de celebración:</string>
+    <string name="fechaevento">Fecha del evento:</string>
+    <string name="categoria">Categoría:</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="inicio">Inicio</string>
+    <string name="equipos">Equipos</string>
+    <string name="buscar">Buscar</string>
+    <string name="perfil">Perfil</string>
+    <string name="nameevent">Nombre del evento</string>
+    <string name="crearevento">Crear evento</string>
+    <string name="elegirfecha">ELIGE FECHA</string>
+    <string name="eligehora">ELIGE HORA</string>
+    <string name="deporte">Deporte</string>
+    <string name="PARTICIPACION">Participo</string>
+    <string name="NO">NO</string>
+    <string name="SÍ">SÍ</string>
+    <string name="namepista">Busca tu pista</string>
+
+    <!-- Sync Preferences -->
+    <string name="nightmode">Tema oscuro</string>
+    <string name="nightmode_sum">¿Deseas establecer tema oscuro para la aplicación?</string>
+    <string name="title_activity_settings" translatable="false">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="sync_header" translatable="false">Sync</string>
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+    <string name="attachment_title">Descargar archivos adjuntos entrantes</string>
+    <string name="attachment_summary_on">"Descargar automáticamente archivos adjuntos para correos electrónicos entrantes "</string>
+    <string name="attachment_summary_off">Descargue archivos adjuntos solo cuando se soliciten manualmente</string>
+    <string name="messages_header">Mensajes</string>
+    <string name="signature_title">Tu firma</string>
+    <string name="reply_title">Acción de respuesta predeterminada</string>
+    <string name="sync_title">Sincronizar el correo electrónico periódicamente</string>
+    <string name="Crearequipo">Crear equipo</string>
+
+
+</resources>
