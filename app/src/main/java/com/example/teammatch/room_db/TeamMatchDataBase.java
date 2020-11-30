@@ -9,10 +9,11 @@ import androidx.room.RoomDatabase;
 import com.example.teammatch.objects.Equipo;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.ParticipacionUserEvento;
+import com.example.teammatch.objects.Pista;
 import com.example.teammatch.objects.User;
 
 
-@Database(entities = {Evento.class, User.class, Equipo.class, ParticipacionUserEvento.class}, version = 1)
+@Database(entities = {Evento.class, User.class, Equipo.class, ParticipacionUserEvento.class, Pista.class}, version = 1)
 public abstract class TeamMatchDataBase extends RoomDatabase {
 
     public static TeamMatchDataBase instance;

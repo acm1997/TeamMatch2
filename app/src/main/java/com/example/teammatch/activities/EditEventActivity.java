@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.teammatch.AppExecutors;
 import com.example.teammatch.R;
+import com.example.teammatch.network.PistasActivity;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.room_db.TeamMatchDAO;
 import com.example.teammatch.room_db.TeamMatchDataBase;

@@ -44,7 +44,7 @@
                 android:resource="@xml/search" />
         </activity>
         <activity android:name=".activities.CrearEventoActivity" />
-        <activity android:name=".activities.PistasActivity" />
+        <activity android:name=".network.PistasActivity" />
         <activity android:name=".activities.EquiposActivity" />
         <activity android:name=".activities.CrearEquipoActivity" />
         <activity android:name=".activities.PistaDetallesActivity" />

@@ -9,6 +9,8 @@ import androidx.room.Update;
 import com.example.teammatch.objects.Equipo;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.ParticipacionUserEvento;
+import com.example.teammatch.objects.Pista;
+import com.example.teammatch.objects.Pistas;
 import com.example.teammatch.objects.User;
 
 import java.util.List;
@@ -78,6 +80,7 @@ public interface TeamMatchDAO {
     User login(String username, String password);
 
 
+
     // PARTICIPACION DE USUARIOS EN EVENTOS
 
     @Insert
@@ -110,4 +113,15 @@ public interface TeamMatchDAO {
 
     @Query("DELETE FROM ParticipacionUserEvento WHERE idEvento = :idEvento")
     public void deleteParticipacionByEvento(long idEvento);
+
+    //PISTA
+
+    @Insert
+   public long insertPista(Pista pista);
+
+    @Query("SELECT * FROM pista where id=(:idPista)")
+    Pista getPistaById(long idPista);
+
+
+
 }
