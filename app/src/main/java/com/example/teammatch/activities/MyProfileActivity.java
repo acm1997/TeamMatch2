@@ -18,25 +18,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.teammatch.AppExecutors;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
+
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.EventAdapter;
-import com.example.teammatch.objects.Evento;
-import com.example.teammatch.room_db.TeamMatchDataBase;
+import com.example.teammatch.fragments.EventosCreadosFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
 
 public class MyProfileActivity extends AppCompatActivity {
 
@@ -46,20 +54,16 @@ public class MyProfileActivity extends AppCompatActivity {
     private Button btn_EditP;
     private ImageView img;
 
-    //Mis eventos
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mlayoutManager;
-    private EventAdapter mAdapter;
-
-    //Eventos en los que participo
-    private RecyclerView mRecyclerView2;
-    private RecyclerView.LayoutManager mlayoutManager2;
-    private EventAdapter mAdapter2;
-
     private SharedPreferences preferences;
 
     public static final int EDIT_PROFILE_REQUEST = 0;
     public static final int GO_LOGIN_REQUEST = 1;
+
+
+    // EVENTOS
+    public static ViewPager2 viewPager;
+    private FragmentStateAdapter pagerAdapter;
+    private String[] titles = new String[]{"Eventos creados", "Eventos en los que participas"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,46 +129,18 @@ public class MyProfileActivity extends AppCompatActivity {
             return false;
         });
 
-        loadItems();
 
-        mRecyclerView = findViewById(R.id.my_recycler_view_EventosUser);
+        viewPager = findViewById(R.id.viewPager_Eventos);
+        pagerAdapter = new MyPagerAdapter(this);
+        viewPager.setAdapter(pagerAdapter);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
 
-        mRecyclerView.setHasFixedSize(true);
+        new TabLayoutMediator(tabLayout, viewPager,
+                (tab, position) -> tab.setText(titles[position])).attach();
 
-        mlayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mlayoutManager);
-
-        mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Evento item) {
-                Intent eventoIntent = new Intent(MyProfileActivity.this, EventDetailsActivity.class);
-                Evento.packageIntent(eventoIntent,item.getNombre(),item.getFecha().toString(),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud());
-                startActivity(eventoIntent);
-            }
-        });
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        loadMisParticipaciones();
-
-        mRecyclerView2 = findViewById(R.id.my_recycler_view_EventosParticipacion);
-
-        mRecyclerView2.setHasFixedSize(true);
-
-        mlayoutManager2 = new LinearLayoutManager(this);
-        mRecyclerView2.setLayoutManager(mlayoutManager2);
-
-        mAdapter2 = new EventAdapter(new EventAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Evento item) {
-                Intent eventoIntent = new Intent(MyProfileActivity.this, EventDetailsActivity.class);
-                Evento.packageIntent(eventoIntent,item.getNombre(),item.getFecha().toString(),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud());
-                startActivity(eventoIntent);
-            }
-        });
-
-        mRecyclerView2.setAdapter(mAdapter2);
     }
+
+
 
     @Override
     public void onResume() {
@@ -172,9 +148,13 @@ public class MyProfileActivity extends AppCompatActivity {
 
         // Load saved ToDoItems, if necessary
 
-   //     if (mAdapter.getItemCount() == 0)
-            loadItems();
-            loadMisParticipaciones();
+        // if (mAdapter.getItemCount() == 0)
+
+        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT
+        // loadItems();
+
+        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT
+        // loadMisParticipaciones();
     }
 
     String currentPhotoPath;
@@ -241,7 +221,7 @@ public class MyProfileActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-         if(id == R.id.action_cerrar_sesion){
+        if(id == R.id.action_cerrar_sesion){
             preferences.edit().clear().apply();
             Toast.makeText(getApplicationContext(), "Se ha cerrado la sesión", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MyProfileActivity.this, LoginActivity.class);
@@ -252,30 +232,30 @@ public class MyProfileActivity extends AppCompatActivity {
     }
 
 
-    // Load stored Eventos
-    private void loadItems() {
-        preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
-        Long usuario_id = preferences.getLong("usuario_id", 0);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                List<Evento> eventosUser= TeamMatchDataBase.getInstance(MyProfileActivity.this).getDao().getAllEventosByUserId(usuario_id);
-                //log("USUARIO CREADOR" + userWithEventos.getUser().getUsername().toString());
-                runOnUiThread(() -> mAdapter.load(eventosUser));
-            }
-        });
-    }
+    private class MyPagerAdapter extends FragmentStateAdapter {
 
-    private void loadMisParticipaciones() {
-        preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
-        Long usuario_id = preferences.getLong("usuario_id", 0);
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                List<Evento> eventosParticipacion= TeamMatchDataBase.getInstance(MyProfileActivity.this).getDao().getAllParticipacionesByUser(usuario_id);
-                runOnUiThread(() -> mAdapter2.load(eventosParticipacion));
+        public MyPagerAdapter(FragmentActivity fa) {
+            super(fa);
+        }
+
+        @Override
+        public Fragment createFragment(int pos) {
+            switch (pos) {
+                case 0: {
+                    return new EventosCreadosFragment();
+                }
+                case 1: {
+                    return new EventosParticipadosFragment();
+                }
+                default:
+                    return new EventosCreadosFragment();
             }
-        });
+        }
+
+        @Override
+        public int getItemCount() {
+            return titles.length;
+        }
     }
 
 

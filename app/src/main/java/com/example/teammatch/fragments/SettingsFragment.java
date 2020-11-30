@@ -1,8 +1,10 @@
-package com.example.teammatch;
+package com.example.teammatch.fragments;
 
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.example.teammatch.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
