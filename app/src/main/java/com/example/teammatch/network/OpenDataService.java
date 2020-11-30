@@ -1,4 +1,4 @@
-package com.example.teammatch;
+package com.example.teammatch.network;
 
 import com.example.teammatch.objects.Pistas;
 
