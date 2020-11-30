@@ -1,4 +1,4 @@
-package com.example.teammatch.activities;
+package com.example.teammatch.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teammatch.AppExecutors;
 import com.example.teammatch.R;
+import com.example.teammatch.activities.EventDetailsActivity;
 import com.example.teammatch.adapters.EventAdapter;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.room_db.TeamMatchDataBase;

@@ -18,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -27,14 +25,13 @@ import androidx.core.content.FileProvider;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 
 import com.example.teammatch.R;
-import com.example.teammatch.adapters.EventAdapter;
 import com.example.teammatch.fragments.EventosCreadosFragment;
+import com.example.teammatch.fragments.EventosParticipadosFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
