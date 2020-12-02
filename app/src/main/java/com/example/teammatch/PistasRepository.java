@@ -1,4 +1,3 @@
-/*
 package com.example.teammatch;
 
 import android.util.Log;
@@ -8,10 +7,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.example.teammatch.network.PistasActivity;
+import com.example.teammatch.network.PistasLoaderRunnable;
 import com.example.teammatch.network.PistasNetworkDataSource;
+import com.example.teammatch.objects.Binding;
+import com.example.teammatch.objects.Pista;
 import com.example.teammatch.objects.Pistas;
 import com.example.teammatch.room_db.TeamMatchDAO;
+import com.example.teammatch.room_db.TeamMatchDataBase;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,31 +25,34 @@ import java.util.Map;
 public class PistasRepository {
 
     private static final String LOG_TAG = PistasRepository.class.getSimpleName();
+    private static final String TAG = "Pistas: ";
 
     // For Singleton instantiation
     private static PistasRepository sInstance;
     private final TeamMatchDAO mTeamMatchDao;
-    private final PistasNetworkDataSource mPistasNetworkDataSource;
+    private final PistasNetworkDataSource mPistasNetworkDataSource;//Carga en liveData pistas.
     private final AppExecutors mExecutors = AppExecutors.getInstance();
-    private final MutableLiveData<String> userFilterLiveData = new MutableLiveData<>();
     private final Map<String, Long> lastUpdateTimeMillisMap = new HashMap<>();
     private static final long MIN_TIME_FROM_LAST_FETCH_MILLIS = 30000;
 
     private PistasRepository(TeamMatchDAO teamMatchDAO, PistasNetworkDataSource pistasNetworkDataSource) {
         mTeamMatchDao = teamMatchDAO;
         mPistasNetworkDataSource = pistasNetworkDataSource;
-        // LiveData that fetches repos from network
-        LiveData<Pistas> networkData = mPistasNetworkDataSource.getCurrentRepos();
-        // observe the network LiveData.
+        // LiveData that fetches bildings from network. Cargo pistas.
+        LiveData<List<Pista>> networkData = mPistasNetworkDataSource.getCurrentRepos();
+        // observe the network LiveData que me llega de pistas.
         // If that LiveData changes, update the database.
-        networkData.observeForever(newReposFromNetwork -> {
+        networkData.observeForever(newPistasFromNetwork -> {
             mExecutors.diskIO().execute(() -> {
+                //Aquí insertar pistas.
+//                List<Pista> listaPista = obtenerPistasDesdeObjetoPistasAPI(networkData.getValue());
                 // Deleting cached repos of user
-                if (newReposFromNetwork.length > 0){
-                    mRepoDao.deleteReposByUser(newReposFromNetwork[0].getOwner().getLogin());
+                if (newPistasFromNetwork != null){
+                    mTeamMatchDao.deleteAllPistas();
                 }
                 // Insert our new repos into local database
-                mRepoDao.bulkInsert(Arrays.asList(newReposFromNetwork));
+
+                mTeamMatchDao.bulkInsert(networkData.getValue());
                 Log.d(LOG_TAG, "New values inserted in Room");
             });
         });
@@ -59,55 +67,60 @@ public class PistasRepository {
         return sInstance;
     }
 
-    public void setUsername(final String username){
-        //Set value to MutableLiveData in order to filter getCurrentRepos LiveData
-        userFilterLiveData.setValue(username);//Este LiveData tiene en tod momento una referencia al usuario de la aplicación.
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            if (isFetchNeeded(username)) {
-                doFetchRepos(username);
-            }
-        });
-    }
 
-    public void doFetchRepos(String username){
-        Log.d(LOG_TAG, "Fetching Repos from Github");
-        AppExecutors.getInstance().diskIO().execute(() -> {
-            mRepoDao.deleteReposByUser(username);
-            mRepoNetworkDataSource.fetchRepos(username);
-            lastUpdateTimeMillisMap.put(username, System.currentTimeMillis());
-        });
-    }
-
-    */
-/**
-     * Database related operations
-     **//*
-
-
-    public LiveData<List<Repo>> getCurrentRepos() {
+    public LiveData<List<Pista>> getCurrentRepos() {
         // Return LiveData from Room. Use Transformation to get owner
         //Ahora devolvemos una transformación.
-        //Cogemos LiveData y cada vez que cambie hacemos la transformación.
-        return Transformations.switchMap(userFilterLiveData, new Function<String, LiveData<List<Repo>>>() {
-            @Override
-            public LiveData<List<Repo>> apply(String input) {
-                return mRepoDao.getReposByOwner(input);//Input hace referencia al username de arriba.
-            }
-        });
+        //Cogemos LiveData
+        return mTeamMatchDao.getLiveDataPistas();
     }
 
-    */
-/**
-     * Checks if we have to update the repos data.
-     * @return Whether a fetch is needed
-     *//*
+    //Hacer nueva petición de pistas
+    public void doFetchPistas(){
+        Log.d(LOG_TAG, "Fetching Pistas of OpenData");
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            mTeamMatchDao.deleteAllPistas();
+            mPistasNetworkDataSource.fetchPistas();
+            lastUpdateTimeMillisMap.put("pista", System.currentTimeMillis());
+        });
+    }
+    /* * Checks if we have to update the repos data.
+     * @return Whether a fetch is needed*/
 
-    private boolean isFetchNeeded(String username) {
-        Long lastFetchTimeMillis = lastUpdateTimeMillisMap.get(username);
+    private boolean isFetchNeeded() {
+        Long lastFetchTimeMillis = lastUpdateTimeMillisMap.get("pista");
         lastFetchTimeMillis = lastFetchTimeMillis == null ? 0L : lastFetchTimeMillis;
         long timeFromLastFetch = System.currentTimeMillis() - lastFetchTimeMillis;
         //Implement cache policy: When time has passed or no repos in cache
-        return mRepoDao.getNumberReposByUser(username) == 0 || timeFromLastFetch > MIN_TIME_FROM_LAST_FETCH_MILLIS;//Si ocurre 1 de las 2, obtengo los datos de la red haciendo petición.
+        return mTeamMatchDao.getNumberPistas() == 0 || timeFromLastFetch > MIN_TIME_FROM_LAST_FETCH_MILLIS;//Si ocurre 1 de las 2, obtengo los datos de la red haciendo petición.
+    }
+
+    public void setPista(){
+        //Set value to MutableLiveData in order to filter getCurrentRepos LiveData
+        AppExecutors.getInstance().diskIO().execute(() -> {
+            if (isFetchNeeded()) {
+                doFetchPistas();
+            }
+        });
+    }
+
+    public List<Pista> obtenerPistasDesdeObjetoPistasAPI(Pistas p){
+        List<Pista> listaPistasBD = new ArrayList<Pista>();
+            for(Binding binding : p.getResults().getBindings()) {
+                Pista pNueva = new Pista(binding.getFoafName().getValue(), binding.getSchemaAddressAddressLocality().getValue(),"",binding.getGeoLong().getValue(),binding.getGeoLat().getValue());
+                listaPistasBD.add(pNueva);
+            }
+        log("PISTA INSERTADA: " + listaPistasBD.get(1).getNombrePista());
+        return listaPistasBD;
+    }
+
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 }
-*/

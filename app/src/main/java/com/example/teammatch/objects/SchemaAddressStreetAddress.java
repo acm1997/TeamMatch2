@@ -12,6 +12,10 @@ public class SchemaAddressStreetAddress {
     @Expose
     private String value;
 
+    public SchemaAddressStreetAddress(String value) {
+        this.value = value;
+    }
+
     public String getType() {
         return type;
     }

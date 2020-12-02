@@ -16,6 +16,10 @@ public class GeoLat {
     @Expose
     private String value;
 
+    public GeoLat(String value) {
+        this.value = value;
+    }
+
     public String getDatatype() {
         return datatype;
     }

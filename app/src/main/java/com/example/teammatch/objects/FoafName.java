@@ -13,6 +13,10 @@ public class FoafName {
     @Expose
     private String value;
 
+    public FoafName(String value) {
+        this.value = value;
+    }
+
     public String getType() {
         return type;
     }

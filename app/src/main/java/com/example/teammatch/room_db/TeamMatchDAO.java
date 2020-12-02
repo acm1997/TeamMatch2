@@ -1,11 +1,13 @@
 package com.example.teammatch.room_db;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.teammatch.objects.Binding;
 import com.example.teammatch.objects.Equipo;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.ParticipacionUserEvento;
@@ -14,6 +16,8 @@ import com.example.teammatch.objects.Pistas;
 import com.example.teammatch.objects.User;
 
 import java.util.List;
+
+import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao
 public interface TeamMatchDAO {
@@ -116,12 +120,26 @@ public interface TeamMatchDAO {
 
     //PISTA
 
-    @Insert
+    @Insert(onConflict = REPLACE)
    public long insertPista(Pista pista);
+
+    @Insert(onConflict = REPLACE)
+    void bulkInsert(List<Pista> pistas);
 
     @Query("SELECT * FROM pista where id=(:idPista)")
     Pista getPistaById(long idPista);
 
+
+    @Query("DELETE FROM pista")
+    public void deleteAllPistas();
+
+    //Migrate List<Repo> to LiveData<List<Repo>>
+    //Ahora me devuelve un observable y tendre los datos de forma reactiva en mi interfaz siempre.
+    @Query("SELECT * FROM pista")
+    LiveData<List<Pista>> getLiveDataPistas();
+
+    @Query("SELECT count(*) FROM pista")
+    int getNumberPistas();
 
 
 }
