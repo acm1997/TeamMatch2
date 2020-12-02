@@ -137,8 +137,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();

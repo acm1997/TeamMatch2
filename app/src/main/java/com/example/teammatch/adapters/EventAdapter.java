@@ -1,5 +1,7 @@
 package com.example.teammatch.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,6 +137,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             deporteView.setText(evento.getDeporte().toString());
 
             fechaView.setText(evento.FORMAT.format(evento.getFecha()));
+
+            Bitmap myBitmap = BitmapFactory.decodeFile(evento.getEventoPhotoPath());
+
+            imgView.setImageBitmap(myBitmap);
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

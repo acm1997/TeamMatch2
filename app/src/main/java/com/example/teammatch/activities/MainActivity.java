@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(Evento item) {
                 Intent eventoIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
                 log("EVENTO DETALLADO: "+ item.toString()+ " con fecha: "+ item.getFecha());
-                Evento.packageIntent(eventoIntent,item.getNombre(),item.FORMAT.format(item.getFecha()),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud());
+                Evento.packageIntent(eventoIntent,item.getNombre(),item.FORMAT.format(item.getFecha()),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud(), item.getEventoPhotoPath());
                 eventoIntent.putExtra("ID", item.getId());
                 log("EVENTO DETALLADO despues package: "+ eventoIntent.getStringExtra("nombre") + " con fecha: "+eventoIntent.getStringExtra("fecha"));
 

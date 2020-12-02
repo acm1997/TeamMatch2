@@ -145,7 +145,7 @@ public class EditEventActivity extends AppCompatActivity {
                     log("EVENTO EDITADO: " + eventoupdate.getId());*/
 
                     Intent i = new Intent();
-                    Evento.packageIntent(i,editNombreEvento,editFechaHora,Integer.parseInt(editParticipantes),editDescripcionEvento,getDeporte(),editPista,e.getUserCreatorId(),latitud, longitud);
+                    Evento.packageIntent(i,editNombreEvento,editFechaHora,Integer.parseInt(editParticipantes),editDescripcionEvento,getDeporte(),editPista,e.getUserCreatorId(),latitud, longitud, e.getEventoPhotoPath());
 
                     Evento eventoupdate = new Evento(i);
                     eventoupdate.setId(e.getId());

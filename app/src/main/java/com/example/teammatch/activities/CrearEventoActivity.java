@@ -1,16 +1,22 @@
 package com.example.teammatch.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,6 +24,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.teammatch.AppExecutors;
 import com.example.teammatch.R;
@@ -25,6 +32,10 @@ import com.example.teammatch.network.PistasActivity;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.Evento.Deporte;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -49,7 +60,10 @@ public class CrearEventoActivity extends AppCompatActivity {
     private RadioGroup mDeportes;
     private RadioButton mDefaultDeporte;
     private TextView mPista;
+    private ImageView mImagenView;
+    private Button mImagen;
 
+    String image_path;
     String latitud;
     String longitud;
 
@@ -72,6 +86,7 @@ public class CrearEventoActivity extends AppCompatActivity {
         mPista = (TextView) findViewById(R.id.idPistaSeleccionada);
         fechaView = (TextView) findViewById(R.id.fecha);
         horaView = (TextView) findViewById(R.id.hora);
+        mImagenView = (ImageView) findViewById(R.id.iV_evento);
 
 
         //Usuario de la sesion
@@ -103,12 +118,25 @@ public class CrearEventoActivity extends AppCompatActivity {
             startActivityForResult(intent, SELECCIONAR_PISTA_EVENTO);
         });
 
+        final Button mImagen = (Button) findViewById(R.id.btn_add_image_event);
+        mImagen.setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(CrearEventoActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(CrearEventoActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        100);
+                return;
+            }
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setType("image/*");
+            startActivityForResult(intent.createChooser(intent, "Seleccione la Aplicación"), 10);
+        });
+
         final Button cancelButton = (Button) findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
             finish();
         });
-
 
         final  Button submitButton = findViewById(R.id.buttonCrear);
         submitButton.setOnClickListener(view -> {
@@ -119,6 +147,7 @@ public class CrearEventoActivity extends AppCompatActivity {
             String desc = mDescripcion.getText().toString();
             String pist = mPista.getText().toString();
             Deporte dep = getDeporte();
+            String img = image_path;
 
 
             if(n != null && n.equals("")){
@@ -134,7 +163,7 @@ public class CrearEventoActivity extends AppCompatActivity {
                             Toast.makeText(CrearEventoActivity.this, "No tiene asignada ninguna pista", Toast.LENGTH_SHORT).show();
                         }else {
                             log("LATITUD Y LONGITUD que se pasan por el INTENT: " + latitud + " " + longitud);
-                            Evento.packageIntent(i, n, d, Integer.parseInt(p), desc, dep, pist, usuario_id, latitud,longitud);
+                            Evento.packageIntent(i, n, d, Integer.parseInt(p), desc, dep, pist, usuario_id, latitud,longitud, image_path);
                             setResult(RESULT_OK, i);
                             finish();
                         }
@@ -149,6 +178,7 @@ public class CrearEventoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        //Actividad Añadir Pista
         if (requestCode == SELECCIONAR_PISTA_EVENTO && resultCode == RESULT_OK) {
             TextView nombrePistaa = findViewById(R.id.idPistaSeleccionada);
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -164,6 +194,41 @@ public class CrearEventoActivity extends AppCompatActivity {
                 }
             });
         }
+        //Añadir Imagen
+        if(requestCode == 10 && resultCode == RESULT_OK){
+            Bitmap imagesBitmap = null;
+            try {
+                imagesBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            image_path = createDirectoryAndSaveFile(imagesBitmap);
+            mImagenView.setImageBitmap(imagesBitmap);
+        }
+    }
+
+    //Guardar imagen en el directorio
+    private String createDirectoryAndSaveFile(Bitmap imageToSave) {
+
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes";
+
+        File direct = new File(file_path);
+
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String photoname = "IMGEvento_" + timeStamp + ".png";
+        File file = new File(direct, photoname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.PNG, 85, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file_path+"/"+photoname;
     }
 
     //Bloque añadir fecha y hora

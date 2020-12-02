@@ -41,6 +41,8 @@ public class Evento {
     public final static String LATITUD = "latitud";
     @Ignore
     public final static String LONGITUD = "longitud";
+    @Ignore
+    public final static String IMG_PATH = "imag_path";
 
     @Ignore
     public final static SimpleDateFormat FORMAT = new SimpleDateFormat(
@@ -69,6 +71,8 @@ public class Evento {
     private String latitud;
     private String longitud;
 
+    private String EventoPhotoPath;
+
     @Ignore
     public Evento() {
         this.nombre = "";
@@ -80,10 +84,11 @@ public class Evento {
         this.userCreatorId = 0;
         this.latitud = "";
         this.longitud = "";
+        this.EventoPhotoPath = "";
     }
 
     @Ignore
-    public Evento(String mNombre, Date mFecha, Integer mParticipantes, String mDescripcion, Deporte mDeporte,String mPista,long userCreatorId, String mLatitud, String mLongitud) {
+    public Evento(String mNombre, Date mFecha, Integer mParticipantes, String mDescripcion, Deporte mDeporte, String mPista, long userCreatorId, String mLatitud, String mLongitud, String mEventoPhotoPath) {
         this.nombre = mNombre;
         this.fecha = mFecha;
         this.participantes = mParticipantes;
@@ -93,6 +98,7 @@ public class Evento {
         this.pista = mPista;
         this.latitud = mLatitud;
         this.longitud = mLongitud;
+        this.EventoPhotoPath = mEventoPhotoPath;
     }
 
     @Ignore
@@ -104,6 +110,8 @@ public class Evento {
         pista = intent.getStringExtra(Evento.PISTA);
         latitud = intent.getStringExtra(Evento.LATITUD);
         longitud = intent.getStringExtra(Evento.LONGITUD);
+        EventoPhotoPath = intent.getStringExtra(Evento.IMG_PATH);
+
 
         try {
             fecha = Evento.FORMAT.parse(intent.getStringExtra(Evento.FECHA));
@@ -114,7 +122,7 @@ public class Evento {
         userCreatorId = intent.getLongExtra(Evento.USER, 0);
     }
 
-    public Evento(long id, String nombre, Date fecha, Integer participantes, String descripcion, Deporte deporte, String pista, long userCreatorId,  String latitud, String longitud) {
+    public Evento(long id, String nombre, Date fecha, Integer participantes, String descripcion, Deporte deporte, String pista, long userCreatorId, String latitud, String longitud, String EventoPhotoPath) {
         this.id = id;
         this.nombre = nombre;
         this.fecha = fecha;
@@ -125,6 +133,7 @@ public class Evento {
         this.userCreatorId = userCreatorId;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.EventoPhotoPath = EventoPhotoPath;
     }
 
     public long getId() {
@@ -207,7 +216,15 @@ public class Evento {
         this.longitud = longitud;
     }
 
-    public static void packageIntent(Intent intent, String mNombre, String mFecha, Integer mParticipantes, String mDescripcion, Deporte mDeporte, String mPista, long id_user, String mLatitud, String mLongitud) {
+    public String getEventoPhotoPath() {
+        return EventoPhotoPath;
+    }
+
+    public void setEventoPhotoPath(String eventoPhotoPath) {
+        this.EventoPhotoPath = eventoPhotoPath;
+    }
+
+    public static void packageIntent(Intent intent, String mNombre, String mFecha, Integer mParticipantes, String mDescripcion, Deporte mDeporte, String mPista, long id_user, String mLatitud, String mLongitud, String mEventoPhotoPath) {
         intent.putExtra(Evento.NOMBRE, mNombre);
         intent.putExtra(Evento.DESCRIPCION, mDescripcion);
         intent.putExtra(Evento.FECHA, mFecha);
@@ -217,6 +234,7 @@ public class Evento {
         intent.putExtra(Evento.USER, id_user);
         intent.putExtra(Evento.LATITUD, mLatitud);
         intent.putExtra(Evento.LONGITUD, mLongitud);
+        intent.putExtra(Evento.IMG_PATH, mEventoPhotoPath);
     }
 
 }

@@ -102,6 +102,7 @@
     <string name="reply_title">Acción de respuesta predeterminada</string>
     <string name="sync_title">Sincronizar el correo electrónico periódicamente</string>
     <string name="Crearequipo">Crear equipo</string>
+    <string name="addimage">Añade una imagen</string>
 
 
 </resources>
