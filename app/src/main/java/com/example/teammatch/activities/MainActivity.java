@@ -2,6 +2,7 @@ package com.example.teammatch.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,16 +12,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teammatch.AppContainer;
 import com.example.teammatch.AppExecutors;
+import com.example.teammatch.EventosRepository;
+import com.example.teammatch.MyApplication;
+import com.example.teammatch.PistasRepository;
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.EventAdapter;
+import com.example.teammatch.network.PistasNetworkDataSource;
 import com.example.teammatch.objects.Evento;
+import com.example.teammatch.objects.Pista;
 import com.example.teammatch.objects.User;
 import com.example.teammatch.room_db.TeamMatchDataBase;
+import com.example.teammatch.ui.MainActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private EventAdapter mAdapter;
 
     private SharedPreferences preferences;
+
+    private EventosRepository mEventosRepository;
+
 
 
     @Override
@@ -116,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-
         mRecyclerView = findViewById(R.id.my_recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
@@ -124,7 +136,14 @@ public class MainActivity extends AppCompatActivity {
         mlayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mlayoutManager);
 
-        mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
+        //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        MainActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(MainActivityViewModel.class);
+        mViewModel.getEventos().observe(this, eventos -> {
+            mAdapter.load(eventos);
+        });
+
+   /*     mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Evento item) {
                 Intent eventoIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
@@ -136,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(eventoIntent, GO_DETAILS_ITEM);
             }
         });
-
+*/
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -187,10 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
     //ESTE ONRESUME CON EL VIEW MODEL YA NO VA A HACER FALTA PORQUE CARGO LOS EVENTOS DESDE EL OBSERVER AL LIVEDATA.
-    @Override
+/*    @Override
     public void onResume() {
         super.onResume();
 
@@ -198,9 +217,9 @@ public class MainActivity extends AppCompatActivity {
 
       //  if (mAdapter.getItemCount() == 0)
             loadItems();
-    }
+    }*/
 
-    @Override
+/*    @Override
     protected void onPause() {
         super.onPause();
         saveItems();
@@ -209,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         TeamMatchDataBase.getInstance(this).close();
         super.onDestroy();
-    }
+    }*/
 
 
     @Override
@@ -309,4 +328,5 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i(TAG, msg);
     }
+
 }

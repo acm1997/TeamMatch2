@@ -26,6 +26,9 @@ public interface TeamMatchDAO {
     @Query("SELECT * FROM evento")
     public List<Evento> getAllEventos();
 
+    @Query("SELECT * FROM evento")
+    LiveData<List<Evento>> getLiveDataAllEventos();
+
     @Insert
     public long insertEvento(Evento evento);
 
