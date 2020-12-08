@@ -187,9 +187,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
+    //ESTE ONRESUME CON EL VIEW MODEL YA NO VA A HACER FALTA PORQUE CARGO LOS EVENTOS DESDE EL OBSERVER AL LIVEDATA.
     @Override
     public void onResume() {
         super.onResume();
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 List<Evento> eventos = TeamMatchDataBase.getInstance(MainActivity.this).getDao().getAllEventos();
           //      log("ID BD: "+ eventos.get(0).getId());
-                runOnUiThread(() -> mAdapter.load(eventos));
+                runOnUiThread(() -> mAdapter.load(eventos));//USAREMOS ESTA LLAMADA EN EL OBSERVER PARA CARGAR EVENTOS.
             }
         });
     }

@@ -90,6 +90,7 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
             @Override
             public void onRefresh() {
                 mPistaRepository.doFetchPistas();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
