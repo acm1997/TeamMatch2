@@ -1,14 +1,26 @@
 package com.example.teammatch.adapters;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teammatch.R;
 import com.example.teammatch.objects.Equipo;
+import com.example.teammatch.room_db.TeamMatchDAO;
+import com.example.teammatch.room_db.TeamMatchDataBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,21 +29,20 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.ViewHolder
 
     private List<Equipo> mItems = new ArrayList<>();
 
+
     public interface OnItemClickListener {
         void onItemClick(Equipo item);
     }
 
     private final OnItemClickListener listener;
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public EquipoAdapter(EquipoAdapter.OnItemClickListener listener) {
-        this.listener = listener;
-    }
 
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public EquipoAdapter(EquipoAdapter.OnItemClickListener listener) { this.listener = listener; }
 
     @Override
     public EquipoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.equipo_detalle,parent,false);
+        View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.equipo,parent,false);
 
         return new EquipoAdapter.ViewHolder(v);
     }
@@ -70,23 +81,42 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.ViewHolder
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nombreView;
-        private TextView miembrosView;
-        private TextView descripcionView;
+        private ImageView imageView;
+        private ImageButton imageButton;
+        private Context context;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            nombreView = itemView.findViewById(R.id.nombreEquipo);
-            miembrosView = itemView.findViewById(R.id.numMiembros);
-            descripcionView = itemView.findViewById(R.id.descEquipo);
+            nombreView = itemView.findViewById(R.id.nomEquipo);
+            imageView = itemView.findViewById(R.id.item_imageTeam);
+            imageButton = itemView.findViewById(R.id.imageDeleteTeam);
+
         }
 
         public void bind(final Equipo equipo, final EquipoAdapter.OnItemClickListener listener) {
 
             nombreView.setText(equipo.getNombre());
 
-            miembrosView.setText(equipo.getMiembros().toString());
+            Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/"+equipo.getEquipoPhotoPath());
 
-            descripcionView.setText(equipo.getDescripcion());
+            //Tamano imagen
+            int alto = 128;
+            int ancho = 128;
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ancho, alto);
+            imageView.setLayoutParams(params);
+            imageView.setImageBitmap(myBitmap);
+
+            imageButton.setOnClickListener(v -> {
+                TeamMatchDataBase equipodatabase = TeamMatchDataBase.getInstance(context);
+                TeamMatchDAO equipodao = equipodatabase.getDao();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        equipodao.deleteEquipo(equipo);
+                    }
+                }).start();
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

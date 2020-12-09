@@ -57,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
                     user.setUsername(mUsername.getText().toString());
                     user.setEmail(mEmail.getText().toString());
                     user.setPassword(mPassword.getText().toString());
+                    user.setUserPhotoPath(null);
                     boolean validacion_register = validarCampos(user);
 
                     if(validacion_register){

@@ -163,6 +163,7 @@ public class CrearEventoActivity extends AppCompatActivity {
                             Toast.makeText(CrearEventoActivity.this, "No tiene asignada ninguna pista", Toast.LENGTH_SHORT).show();
                         }else {
                             log("LATITUD Y LONGITUD que se pasan por el INTENT: " + latitud + " " + longitud);
+                            log(image_path);
                             Evento.packageIntent(i, n, d, Integer.parseInt(p), desc, dep, pist, usuario_id, latitud,longitud, image_path);
                             setResult(RESULT_OK, i);
                             finish();
@@ -210,7 +211,7 @@ public class CrearEventoActivity extends AppCompatActivity {
     //Guardar imagen en el directorio
     private String createDirectoryAndSaveFile(Bitmap imageToSave) {
 
-        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes";
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/";
 
         File direct = new File(file_path);
 
@@ -228,7 +229,7 @@ public class CrearEventoActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return file_path+"/"+photoname;
+        return photoname;
     }
 
     //Bloque añadir fecha y hora

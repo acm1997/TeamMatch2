@@ -83,19 +83,6 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="44dp"
-        android:layout_height="37dp"
-        android:onClick="tomarFoto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.318"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVPerfil"
-        app:layout_constraintVertical_bias="0.2"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
