@@ -47,7 +47,6 @@ public class PistasLoaderRunnable implements Runnable{
         try {
             Response<Pistas> response = call.execute();
             Pistas p = response.body();
-            log("PISTA SIZEeeee: " + p.getResults().getBindings().size());
             AppExecutors.getInstance().mainThread().execute(() -> mOnReposLoadedListener.onReposLoaded(p.getResults().getBindings()));
         }
         catch (IOException e){

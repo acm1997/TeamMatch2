@@ -66,6 +66,7 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new PistaAdapter(new ArrayList<Binding>(),this);
         mProgressBar = findViewById(R.id.progressBar);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
@@ -75,7 +76,6 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
 
         mViewModel.getPistas().observe(this, (List<Pista> pistas) -> {
             mAdapter.swap(obtenerBindingDesdeListaPistas(pistas));
-            log("SIZE "+ pistas.size() );
             // Show the repo list or the loading screen based on whether the repos data exists and is loaded
             if (pistas != null && pistas.size() != 0) showReposDataView();
             else showLoading();
@@ -96,19 +96,10 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
 
         mPistaRepository.setPista();*/
 
-       /* mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(mViewModel::onRefresh);
+        mSwipeRefreshLayout.setRefreshing(false);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPistaRepository.setPista();
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });*/
-
-
-
-        //loadPistas();
 
         recyclerView.setAdapter(mAdapter);
 
@@ -117,37 +108,6 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         buscadorPistas.setOnQueryTextListener(this);
     }
 
-  /*  public void loadPistas(){
-        // Create a very simple REST adapter which points to the API.
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://opendata.caceres.es/GetData/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        OpenDataService service = retrofit.create(OpenDataService.class);//Retrofit me crea instancia de interfaz de arriba
-
-        service.cogerPistas().enqueue(new Callback<Pistas>() {
-            @Override
-            public void onResponse(Call<Pistas> call, Response<Pistas> response) {
-
-                Pistas p = response.body();
-                //Meto pìstas en room
-                insertarPistasEnBD(p);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.swap(p.getResults().getBindings());//Se mete esta llamada aquí porque es una llamada asincrona.
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<Pistas> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }*/
 
     @Override
     public void onListInteraction(Binding b) {
@@ -193,12 +153,10 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         mProgressBar.setVisibility(View.GONE);
         mSwipeRefreshLayout.setRefreshing(false);
         recyclerView.setVisibility(View.VISIBLE);
-        log("HOLA ");
     }
     private void showLoading(){
         mProgressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.INVISIBLE);
-        log("adios ");
     }
 
 

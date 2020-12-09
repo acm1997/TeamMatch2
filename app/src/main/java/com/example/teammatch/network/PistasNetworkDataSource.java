@@ -43,7 +43,6 @@ public class PistasNetworkDataSource {
       Pista pNueva = new Pista(binding.getFoafName().getValue(), binding.getSchemaAddressAddressLocality().getValue(),"",binding.getGeoLong().getValue(),binding.getGeoLat().getValue());
       listaPistasBD.add(pNueva);
     }
-    Log.d(LOG_TAG, "Size romm"+listaPistasBD.size());
     return listaPistasBD;
   }
   /**
