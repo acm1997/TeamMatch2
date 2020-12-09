@@ -19,7 +19,6 @@ import com.example.teammatch.objects.Evento;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 
 import java.util.List;
-import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -29,7 +28,7 @@ public class EventosParticipadosFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_eventosparticipados, container, false);
+        View v = inflater.inflate(R.layout.fragment_eventos, container, false);
 
         loadMisParticipaciones();
 

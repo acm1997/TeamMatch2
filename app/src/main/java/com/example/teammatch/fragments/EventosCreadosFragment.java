@@ -28,10 +28,9 @@ public class EventosCreadosFragment extends Fragment {
 
     private EventAdapter mAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_eventoscreados, container, false);
+        View v = inflater.inflate(R.layout.fragment_eventos, container, false);
 
         loadItems();
 

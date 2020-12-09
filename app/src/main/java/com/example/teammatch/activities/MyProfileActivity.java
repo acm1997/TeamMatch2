@@ -148,14 +148,10 @@ public class MyProfileActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        // Load saved ToDoItems, if necessary
-
-        // if (mAdapter.getItemCount() == 0)
-
-        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT
+        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT (?)
         // loadItems();
 
-        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT
+        //TODO - NOTIFICAR LOS CAMBIOS DEL FRAGMENT (?)
         // loadMisParticipaciones();
     }
 
