@@ -1,275 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.EditUserActivity">
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/edithora"
-        android:layout_width="162dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="468dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.819"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fecha"
-        app:layout_constraintVertical_bias="0.025" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvCatEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deporte"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.532" />
-
-    <EditText
-        android:id="@+id/Editparticipantes"
-        android:layout_width="88dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.238"
-        app:layout_constraintStart_toEndOf="@+id/tvParticipantesEdit"
-        app:layout_constraintTop_toBottomOf="@+id/editPista"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <RadioGroup
-        android:id="@+id/radioEGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="276dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.426"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.05">
-
-        <RadioButton
-            android:id="@+id/radioEFutbol"
+        <Button
+            android:id="@+id/btn_imgedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fútbol"
-            tools:layout_editor_absoluteX="38dp"
-            tools:layout_editor_absoluteY="442dp" />
+            android:layout_marginBottom="648dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Cambiar imagen"
+            android:textColor="#000000"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.431"
+            app:layout_constraintStart_toEndOf="@+id/Editname" />
 
-        <RadioButton
-            android:id="@+id/radioEBaloncesto"
+        <EditText
+            android:id="@+id/edithora"
+            android:layout_width="162dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="468dp"
+            android:ems="10"
+            android:inputType="time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.459"
+            app:layout_constraintStart_toEndOf="@+id/btn_horaedit"
+            app:layout_constraintTop_toBottomOf="@+id/fecha"
+            app:layout_constraintVertical_bias="0.025" />
+
+        <TextView
+            android:id="@+id/tvCatEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Baloncesto"
-            tools:layout_editor_absoluteX="109dp"
-            tools:layout_editor_absoluteY="442dp" />
+            android:text="Deporte"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.532" />
 
-        <RadioButton
-            android:id="@+id/radioEVoleibol"
+        <EditText
+            android:id="@+id/Editparticipantes"
+            android:layout_width="88dp"
+            android:layout_height="51dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.238"
+            app:layout_constraintStart_toEndOf="@+id/tvParticipantesEdit"
+            app:layout_constraintTop_toBottomOf="@+id/editPista"
+            app:layout_constraintVertical_bias="0.1" />
+
+        <RadioGroup
+            android:id="@+id/radioEGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Voleibol"
-            tools:layout_editor_absoluteX="211dp"
-            tools:layout_editor_absoluteY="442dp" />
+            android:layout_marginBottom="276dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.426"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.05">
 
-        <RadioButton
-            android:id="@+id/radioETenis"
+            <RadioButton
+                android:id="@+id/radioEFutbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fútbol"
+                tools:layout_editor_absoluteX="38dp"
+                tools:layout_editor_absoluteY="442dp" />
+
+            <RadioButton
+                android:id="@+id/radioEBaloncesto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Baloncesto"
+                tools:layout_editor_absoluteX="109dp"
+                tools:layout_editor_absoluteY="442dp" />
+
+            <RadioButton
+                android:id="@+id/radioEVoleibol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Voleibol"
+                tools:layout_editor_absoluteX="211dp"
+                tools:layout_editor_absoluteY="442dp" />
+
+            <RadioButton
+                android:id="@+id/radioETenis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tenis"
+                tools:layout_editor_absoluteX="294dp"
+                tools:layout_editor_absoluteY="442dp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_pistaedit"
+            android:layout_width="140dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="168dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/idBuscarPista"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.131"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botonfecha"
+            app:layout_constraintVertical_bias="0.022" />
+
+        <TextView
+            android:id="@+id/tvfechaEdit"
+            android:layout_width="140dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="584dp"
+            android:text="Fecha celebración"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.129"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Editname"
+            app:layout_constraintVertical_bias="0.769" />
+
+        <Button
+            android:id="@+id/btn_fechaedit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tenis"
-            tools:layout_editor_absoluteX="294dp"
-            tools:layout_editor_absoluteY="442dp" />
-    </RadioGroup>
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="536dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="NUEVA FECHA"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvfechaEdit"
+            app:layout_constraintVertical_bias="0.02" />
 
-    <Button
-        android:id="@+id/btn_pistaedit"
-        android:layout_width="140dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="168dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/idBuscarPista"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonfecha"
-        app:layout_constraintVertical_bias="0.022" />
+        <Button
+            android:id="@+id/btn_horaedit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="468dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="NUEVA HORA"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.112"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/botonfecha"
+            app:layout_constraintVertical_bias="0.022" />
 
-    <TextView
-        android:id="@+id/tvfechaEdit"
-        android:layout_width="140dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="584dp"
-        android:text="Fecha celebración"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.143"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombreEvento"
-        app:layout_constraintVertical_bias="0.047" />
+        <EditText
+            android:id="@+id/editfecha"
+            android:layout_width="160dp"
+            android:layout_height="47dp"
+            android:layout_marginBottom="536dp"
+            android:ems="10"
+            android:inputType="date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.426"
+            app:layout_constraintStart_toEndOf="@+id/btn_fechaedit"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.02" />
 
-    <Button
-        android:id="@+id/btn_fechaedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="536dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="NUEVA FECHA"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.02" />
+        <EditText
+            android:id="@+id/Editdesc"
+            android:layout_width="307dp"
+            android:layout_height="70dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.355"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.464" />
 
-    <Button
-        android:id="@+id/btn_horaedit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="468dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="NUEVA HORA"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonfecha"
-        app:layout_constraintVertical_bias="0.022" />
+        <TextView
+            android:id="@+id/tvPistaEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pista"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.102"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.661" />
 
-    <EditText
-        android:id="@+id/editfecha"
-        android:layout_width="160dp"
-        android:layout_height="47dp"
-        android:layout_marginBottom="536dp"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.82"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.02" />
+        <TextView
+            android:id="@+id/tvDescEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción del evento"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.137"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_horaedit"
+            app:layout_constraintVertical_bias="0.053" />
 
-    <EditText
-        android:id="@+id/Editdesc"
-        android:layout_width="307dp"
-        android:layout_height="70dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.355"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464" />
-
-    <TextView
-        android:id="@+id/tvPistaEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pista"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.661" />
-
-    <TextView
-        android:id="@+id/tvDescEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descripción del evento"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.394" />
-
-    <EditText
-        android:id="@+id/editPista"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.295"
-        app:layout_constraintStart_toEndOf="@+id/btn_pistaedit"
-        app:layout_constraintTop_toBottomOf="@+id/tvPistaEdit"
-        app:layout_constraintVertical_bias="0.115" />
+        <EditText
+            android:id="@+id/editPista"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.295"
+            app:layout_constraintStart_toEndOf="@+id/btn_pistaedit"
+            app:layout_constraintTop_toBottomOf="@+id/tvPistaEdit"
+            app:layout_constraintVertical_bias="0.115" />
 
 
-    <TextView
-        android:id="@+id/tvParticipantesEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/PARTICIPANTES"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.838" />
+        <TextView
+            android:id="@+id/tvParticipantesEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PARTICIPANTES"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.127"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.838" />
 
-    <TextView
-        android:id="@+id/tvNombreEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre del evento"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.008" />
+        <TextView
+            android:id="@+id/tvNombreEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del evento"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.133"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.008" />
 
-    <EditText
-        android:id="@+id/Editname"
-        android:layout_width="307dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052" />
+        <EditText
+            android:id="@+id/Editname"
+            android:layout_width="203dp"
+            android:layout_height="47dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.051" />
 
-    <Button
-        android:id="@+id/btn_saveEventEdit"
-        android:layout_width="334dp"
-        android:layout_height="51dp"
-        android:background="@color/colorPrimary"
-        android:text="Guardar cambios"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.958" />
+        <Button
+            android:id="@+id/btn_saveEventEdit"
+            android:layout_width="344dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:text="Guardar cambios"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.552"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.976" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

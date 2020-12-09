@@ -1,11 +1,16 @@
 package com.example.teammatch.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +22,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.teammatch.AppExecutors;
 import com.example.teammatch.R;
@@ -25,6 +31,10 @@ import com.example.teammatch.objects.Evento;
 import com.example.teammatch.room_db.TeamMatchDAO;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,10 +66,11 @@ public class EditEventActivity extends AppCompatActivity {
     private TextView mPista;
 
     private Button btn_save;
-
+    private Button btn_editImg;
 
     String latitud;
     String longitud;
+    String image_path;
 
 
 
@@ -121,6 +132,21 @@ public class EditEventActivity extends AppCompatActivity {
             startActivityForResult(intent, SELECCIONAR_PISTA_EDITAR_EVENTO);
         });
 
+        //Botón cambiar imagen
+        final Button btn_editImg = (Button) findViewById(R.id.btn_imgedit);
+        btn_editImg.setOnClickListener(v -> {
+            if (ActivityCompat.checkSelfPermission(EditEventActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(EditEventActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        100);
+                return;
+            }
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setType("image/*");
+            startActivityForResult(intent.createChooser(intent, "Seleccione la Aplicación"), 10);
+        });
+
 
         TeamMatchDataBase.getInstance(this);
 
@@ -134,18 +160,14 @@ public class EditEventActivity extends AppCompatActivity {
                 final String editParticipantes = mParticipantes.getText().toString();
                 final String editPista = mPista.getText().toString();
                 final String editFechaHora =  fechaString +" " + horaString;
-                //TODO - Poner la fecha y hora editada en el nuevo evento editado.
 
+                //TODO - Poner la fecha y hora editada en el nuevo evento editado.
 
                 TeamMatchDataBase eventodatabase = TeamMatchDataBase.getInstance(getApplicationContext());
                  TeamMatchDAO eventoDAO = eventodatabase.getDao();
 
-                  /*  Evento eventoupdate = new Evento(e.getId(),editNombreEvento, e.getFecha(), Integer.parseInt(editParticipantes), editDescripcionEvento,getDeporte(),editPista,e.getUserCreatorId(),e.getLatitud(),e.getLongitud());
-                    log("EVENTO EDITADO: " + eventoupdate.getId());
-                    log("EVENTO EDITADO: " + eventoupdate.getId());*/
-
                     Intent i = new Intent();
-                    Evento.packageIntent(i,editNombreEvento,editFechaHora,Integer.parseInt(editParticipantes),editDescripcionEvento,getDeporte(),editPista,e.getUserCreatorId(),latitud, longitud, e.getEventoPhotoPath());
+                    Evento.packageIntent(i,editNombreEvento,editFechaHora,Integer.parseInt(editParticipantes),editDescripcionEvento,getDeporte(),editPista,e.getUserCreatorId(),latitud, longitud, image_path);
 
                     Evento eventoupdate = new Evento(i);
                     eventoupdate.setId(e.getId());
@@ -220,7 +242,42 @@ public class EditEventActivity extends AppCompatActivity {
                 }
             });
         }
+        //Modificar la imagen
+        if(requestCode == 10 && resultCode == RESULT_OK){
+            Bitmap imagesBitmap = null;
+            try {
+                imagesBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            image_path = createDirectoryAndSaveFile(imagesBitmap);
+        }
     }
+
+    //Guardar la nueva imagen en el directorio
+    private String createDirectoryAndSaveFile(Bitmap imageToSave) {
+
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/";
+
+        File direct = new File(file_path);
+
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String photoname = "IMGEvento_" + timeStamp + ".png";
+        File file = new File(direct, photoname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.PNG, 85, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return photoname;
+    }
+
 
     private void setDefaultDateTime() {
 

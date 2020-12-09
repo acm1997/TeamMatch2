@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,12 @@ import com.example.teammatch.objects.User;
 import com.example.teammatch.room_db.TeamMatchDAO;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EditUserActivity extends AppCompatActivity {
 
     private EditText eUsername;
@@ -35,6 +43,8 @@ public class EditUserActivity extends AppCompatActivity {
     private ImageView imgProfile;
     private SharedPreferences preferences;
     public static final int GO_HOME_DELETE_USER_REQUEST = 0;
+
+    String imgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +86,7 @@ public class EditUserActivity extends AppCompatActivity {
                     if(validacion_editar){
                         TeamMatchDataBase userdatabase = TeamMatchDataBase.getInstance(getApplicationContext());
                         TeamMatchDAO userdao = userdatabase.getDao();
-                        User userupdate = new User(usuario_id, editusername, editemail, editpassword);
+                        User userupdate = new User(usuario_id, editusername, editemail, editpassword, imgPath);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -95,7 +105,6 @@ public class EditUserActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -113,7 +122,7 @@ public class EditUserActivity extends AppCompatActivity {
                         if(usuario_id > 0 && name != null && email != null && password != null){
                             TeamMatchDataBase userdatabase = TeamMatchDataBase.getInstance(getApplicationContext());
                             TeamMatchDAO userdao = userdatabase.getDao();
-                            User userdelete = new User(usuario_id, name, email, password);
+                            User userdelete = new User(usuario_id, name, email, password, imgPath);
 
                             new Thread(new Runnable() {
                                 @Override
@@ -175,11 +184,39 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            Uri path = data.getData();
-            imgProfile.setImageURI(path);
+        Bitmap imagesBitmap = null;
+        try {
+            imagesBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        imgPath = createDirectoryAndSaveFile(imagesBitmap);
+        imgProfile.setImageBitmap(imagesBitmap);
+        }
+
+    //Guardar imagen en el directorio
+    private String createDirectoryAndSaveFile(Bitmap imageToSave) {
+
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/";
+
+        File direct = new File(file_path);
+
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String photoname = "IMGUser_" + timeStamp + ".png";
+        File file = new File(direct, photoname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            imageToSave.compress(Bitmap.CompressFormat.PNG, 85, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return photoname;
     }
 }

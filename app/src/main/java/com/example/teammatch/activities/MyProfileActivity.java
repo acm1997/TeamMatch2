@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,9 +33,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.teammatch.R;
 import com.example.teammatch.fragments.EventosCreadosFragment;
 import com.example.teammatch.fragments.EventosParticipadosFragment;
+import com.example.teammatch.objects.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,6 +53,7 @@ public class MyProfileActivity extends AppCompatActivity {
     private TextView tname;
     private Button btn_EditP;
     private ImageView img;
+    String image_path;
 
     private SharedPreferences preferences;
 
@@ -80,9 +84,13 @@ public class MyProfileActivity extends AppCompatActivity {
         String name = preferences.getString("username", null);
         String email = preferences.getString("email", null);
         String password = preferences.getString("password", null);
+        User u = new User(getIntent());
 
         if(usuario_id > 0 && name != null && email != null && password != null){
             tname.setText(name);
+            Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/"+ u.getUserPhotoPath());
+
+            img.setImageBitmap(myBitmap);
         }
 
         btn_EditP = findViewById(R.id.bEditP);
@@ -126,7 +134,6 @@ public class MyProfileActivity extends AppCompatActivity {
             return false;
         });
 
-
         viewPager = findViewById(R.id.viewPager_Eventos);
         pagerAdapter = new MyPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
@@ -152,54 +159,19 @@ public class MyProfileActivity extends AppCompatActivity {
         // loadMisParticipaciones();
     }
 
-    String currentPhotoPath;
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    static final int REQUEST_TAKE_PHOTO = 1;
+ /*   static final int REQUEST_TAKE_PHOTO = 1;
     public void tomarFoto(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI.toString());
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+        if (ActivityCompat.checkSelfPermission(MyProfileActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MyProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    100);
+            return;
         }
-    }
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            img.setImageBitmap(imageBitmap);
-        }
-    }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, true);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

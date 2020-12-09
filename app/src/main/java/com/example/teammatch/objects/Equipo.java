@@ -16,6 +16,8 @@ public class Equipo {
     public final static String MIEMBROS = "miembros";
     @Ignore
     public final static String DESCRIPCION = "descripcion";
+    @Ignore
+    public final static String IMG_PATH = "imag_path";
 
     @PrimaryKey (autoGenerate = true)
     private long id;
@@ -23,19 +25,22 @@ public class Equipo {
     private String nombre;
     private Integer miembros;
     private String descripcion;
+    private String EquipoPhotoPath;
 
     @Ignore
     public Equipo() {
         this.nombre = "";
         this.miembros = 0;
         this.descripcion = "";
+        this.EquipoPhotoPath = "";
     }
 
     @Ignore
-    public Equipo(String nombre, Integer miembros, String descripcion) {
+    public Equipo(String nombre, Integer miembros, String descripcion, String mEquipoPhotoPath) {
         this.nombre = nombre;
         this.miembros = miembros;
         this.descripcion = descripcion;
+        this.EquipoPhotoPath = mEquipoPhotoPath;
     }
 
     @Ignore
@@ -43,13 +48,15 @@ public class Equipo {
         nombre = intent.getStringExtra(Equipo.NOMBRE);
         miembros = intent.getIntExtra(Equipo.MIEMBROS, 0);
         descripcion = intent.getStringExtra(Equipo.DESCRIPCION);
+        EquipoPhotoPath = intent.getStringExtra(Equipo.IMG_PATH);
     }
 
-    public Equipo(long id, String nombre, Integer miembros, String descripcion) {
+    public Equipo(long id, String nombre, Integer miembros, String descripcion, String EquipoPhotoPath) {
         this.id = id;
         this.nombre = nombre;
         this.miembros = miembros;
         this.descripcion = descripcion;
+        this.EquipoPhotoPath = EquipoPhotoPath;
     }
 
     public long getId() {
@@ -84,9 +91,18 @@ public class Equipo {
         this.descripcion = descripcion;
     }
 
-    public static void packageIntent(Intent intent, String mNombre, Integer mMiembros, String mDescripcion){
+    public String getEquipoPhotoPath() {
+        return EquipoPhotoPath;
+    }
+
+    public void setEquipoPhotoPath(String equipoPhotoPath) {
+        EquipoPhotoPath = equipoPhotoPath;
+    }
+
+    public static void packageIntent(Intent intent, String mNombre, Integer mMiembros, String mDescripcion, String mEquipoPhotoPath){
         intent.putExtra(Equipo.NOMBRE, mNombre);
         intent.putExtra(Equipo.DESCRIPCION, mDescripcion);
         intent.putExtra(Equipo.MIEMBROS, mMiembros);
+        intent.putExtra(Equipo.IMG_PATH, mEquipoPhotoPath);
     }
 }

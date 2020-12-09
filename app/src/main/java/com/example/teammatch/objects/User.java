@@ -23,7 +23,7 @@ public class User {
     @Ignore
     public final static String PASSWORD = "password";
     @Ignore
-    public final static ArrayList<Evento> myEventsPart = new ArrayList<Evento>(); //Lista de eventos en los que participa el user
+    public final static String IMG_PATH = "imag_path";
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -33,40 +33,31 @@ public class User {
     private String Email;
     @ColumnInfo(name = "password")
     private String Password;
-    @Ignore
-    private ArrayList<Evento> MyEventsPart;
+
+    private String UserPhotoPath;
 
     @Ignore
     public User() {
         this.Username = "";
         this.Email = "";
         this.Password = "";
-        this.MyEventsPart = null;
+        this.UserPhotoPath = "";
     }
 
     @Ignore
-    public User(String username, String email, String password, ArrayList<Evento> myEventsPart) {
-        Username = username;
-        Email = email;
-        Password = password;
-  //      MyEvents = myEvents;
-        MyEventsPart = myEventsPart;
-    }
-
-    @Ignore
-    public User(String Username, String Email ,String Password){
+    public User(String Username, String Email ,String Password, String UserPhotoPath){
         this.Username = Username;
         this.Email = Email;
         this.Password = Password;
-//        this.MyEvents = new ArrayList<Evento>();
-        this.MyEventsPart = new ArrayList<Evento>();
+        this.UserPhotoPath = UserPhotoPath;
     }
 
-    public User(long id, String Username, String Email ,String Password) {
+    public User(long id, String Username, String Email ,String Password, String UserPhotoPath) {
         this.id = id;
         this.Username = Username;
         this.Email = Email;
         this.Password = Password;
+        this.UserPhotoPath = UserPhotoPath;
     }
 
     public User(Intent intent){
@@ -74,7 +65,7 @@ public class User {
         Username = intent.getStringExtra(User.USERNAME);
         Email = intent.getStringExtra(User.EMAIL);
         Password = intent.getStringExtra(User.PASSWORD);
-        MyEventsPart = (ArrayList<Evento>) intent.getSerializableExtra("myEventsPart");
+        UserPhotoPath = intent.getStringExtra(User.IMG_PATH);
     }
 
     public long getId() {
@@ -109,12 +100,19 @@ public class User {
         Password = password;
     }
 
+    public String getUserPhotoPath() {
+        return UserPhotoPath;
+    }
 
-    public static void packageIntent(Intent intent, String mUsername, String mEmail , String mPassword, ArrayList<Evento> mMyEventsPart) {
+    public void setUserPhotoPath(String userPhotoPath) {
+        UserPhotoPath = userPhotoPath;
+    }
+
+    public static void packageIntent(Intent intent, String mUsername, String mEmail , String mPassword, String mUserPhotoPath) {
         intent.putExtra(User.USERNAME, mUsername);
         intent.putExtra(User.EMAIL, mEmail);
         intent.putExtra(User.PASSWORD, mPassword);
-        intent.putExtra("MyEventsPart", mMyEventsPart);
+        intent.putExtra(User.IMG_PATH, mUserPhotoPath);
     }
 
     public String toString() {
