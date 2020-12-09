@@ -35,8 +35,6 @@ public class EventosRepository {
         // Return LiveData from Room. Use Transformation to get owner
         //Ahora devolvemos una transformación.
         //Cogemos LiveData
-        Log.d(LOG_TAG, "Eventos cargados: "+ mTeamMatchDao.getLiveDataAllEventos().getValue());
-
         return mTeamMatchDao.getLiveDataAllEventos();
     }
 

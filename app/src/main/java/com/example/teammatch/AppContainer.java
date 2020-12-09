@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.teammatch.network.PistasNetworkDataSource;
 import com.example.teammatch.room_db.TeamMatchDataBase;
-import com.example.teammatch.ui.MainViewModelFactory;
+import com.example.teammatch.ui.EventoViewModelFactory;
 import com.example.teammatch.ui.PistaViewModelFactory;
 
 public class  AppContainer {
@@ -16,7 +16,7 @@ public class  AppContainer {
     public PistaViewModelFactory factory;
 
     public EventosRepository repositoryEventos;
-    public MainViewModelFactory factoryEventos;
+    public EventoViewModelFactory factoryEventos;
     private static final String TAG = "AppContainer: ";
 
 
@@ -28,7 +28,7 @@ public class  AppContainer {
 
         //Iniciar lo de eventos.
         repositoryEventos = EventosRepository.getInstance(database.getDao());
-        factoryEventos = new MainViewModelFactory(repositoryEventos);
+        factoryEventos = new EventoViewModelFactory(repositoryEventos);
 
     }
     private void log(String msg) {

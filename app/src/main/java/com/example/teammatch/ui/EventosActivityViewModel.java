@@ -22,7 +22,6 @@ public class  EventosActivityViewModel extends ViewModel {
     }
 
     //Peticion de Eventos a la BD
-    //todo HAY QUE LLAMAR AL DOfETCHT NO AL GETcURRENT
     public void onRefresh(){
         mRepository.getCurrentEventos();
     }

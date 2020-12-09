@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.teammatch.EventosRepository;
 
-public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory{
+public class EventoViewModelFactory extends ViewModelProvider.NewInstanceFactory{
     private final EventosRepository mRepository;
 
-    public MainViewModelFactory(EventosRepository repository){
+    public EventoViewModelFactory(EventosRepository repository){
         this.mRepository = repository;
     }
 

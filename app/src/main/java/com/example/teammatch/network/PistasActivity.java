@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,21 +79,6 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
             if (pistas != null && pistas.size() != 0) showReposDataView();
             else showLoading();
         });
-        /*mPistaRepository = PistasRepository.getInstance(TeamMatchDataBase.getInstance(this).getDao(), PistasNetworkDataSource.getInstance());
-        mPistaRepository.getCurrentPistas().observe(this, new Observer<List<Pista>>() {
-            @Override
-            public void onChanged(List<Pista> pistas) {
-                log("SIZE "+ pistas.size() );
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.swap(obtenerBindingDesdeListaPistas(pistas));//Se mete esta llamada aquí porque es una llamada asincrona.
-                    }
-                });
-            }
-        });
-
-        mPistaRepository.setPista();*/
 
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(mViewModel::onRefresh);

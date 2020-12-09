@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.teammatch.AppContainer;
 import com.example.teammatch.AppExecutors;
@@ -23,6 +25,7 @@ import com.example.teammatch.MyApplication;
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.EventAdapter;
 import com.example.teammatch.objects.Evento;
+import com.example.teammatch.objects.User;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 import com.example.teammatch.ui.EventosActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -51,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mlayoutManager;
     private EventAdapter mAdapter;
+    private ProgressBar mProgressBar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private SharedPreferences preferences;
 
@@ -123,19 +128,27 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+
         mRecyclerView = findViewById(R.id.my_recycler_view);
 
         mRecyclerView.setHasFixedSize(true);
-
         mlayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mlayoutManager);
+        mProgressBar = findViewById(R.id.progressBar);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
 
         //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
-       /* AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         EventosActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(EventosActivityViewModel.class);
         mViewModel.getEventos().observe(this, eventos -> {
             mAdapter.load(eventos);
-        });*/
+            if (eventos != null ) showReposDataView();
+            else showLoading();
+        });
+
+        /*mSwipeRefreshLayout.setOnRefreshListener(mViewModel::onRefresh);
+        mSwipeRefreshLayout.setRefreshing(false);*/
 
         mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
             @Override
@@ -153,7 +166,18 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-/*    @Override
+    private void showReposDataView(){
+        mProgressBar.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
+        mRecyclerView.setVisibility(View.VISIBLE);
+        log("EVENTO HOLA: ");
+    }
+    private void showLoading(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        log("EVENTO Adios: ");
+    }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -200,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-    }*/
+    }
 
     //ESTE ONRESUME CON EL VIEW MODEL YA NO VA A HACER FALTA PORQUE CARGO LOS EVENTOS DESDE EL OBSERVER AL LIVEDATA.
 /*    @Override

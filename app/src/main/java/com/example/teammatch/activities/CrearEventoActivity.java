@@ -163,7 +163,7 @@ public class CrearEventoActivity extends AppCompatActivity {
                             Toast.makeText(CrearEventoActivity.this, "No tiene asignada ninguna pista", Toast.LENGTH_SHORT).show();
                         }else {
                             log("LATITUD Y LONGITUD que se pasan por el INTENT: " + latitud + " " + longitud);
-                            log(image_path);
+                            //log(image_path);
                             Evento.packageIntent(i, n, d, Integer.parseInt(p), desc, dep, pist, usuario_id, latitud,longitud, image_path);
                             setResult(RESULT_OK, i);
                             finish();
