@@ -5,9 +5,10 @@ import android.content.Intent;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "pista")
+@Entity(tableName = "pista", indices = {@Index(value = {"nombrePista"}, unique = true)})
 public class Pista {
 
     @Ignore
@@ -74,6 +75,7 @@ public class Pista {
         this.geoLongPista = geoLongPista;
         this.geoLatPista = geoLatPista;
     }
+
 
     public long getId() {
         return id;

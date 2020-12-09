@@ -6,18 +6,27 @@ import android.util.Log;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.teammatch.AppExecutors;
+import com.example.teammatch.PistasRepository;
 import com.example.teammatch.activities.MainActivity;
 import com.example.teammatch.network.OpenDataService;
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.PistaAdapter;
 import com.example.teammatch.objects.Binding;
 import com.example.teammatch.objects.Evento;
+import com.example.teammatch.objects.FoafName;
+import com.example.teammatch.objects.GeoLat;
+import com.example.teammatch.objects.GeoLong;
 import com.example.teammatch.objects.Pista;
 import com.example.teammatch.objects.Pistas;
+import com.example.teammatch.objects.SchemaAddressAddressCountry;
+import com.example.teammatch.objects.SchemaAddressAddressLocality;
+import com.example.teammatch.objects.SchemaAddressStreetAddress;
 import com.example.teammatch.room_db.TeamMatchDAO;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 
@@ -37,19 +46,18 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
     private PistaAdapter mAdapter;
     private PistaAdapter mAdapterResults;
     private RecyclerView.LayoutManager layoutManager;
+    private PistasRepository mPistaRepository;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-   // private PistasRepository mRepository;
 
-
-   // private final OnReposLoadedListener mOnReposLoadedListener;
+    // private final OnReposLoadedListener mOnReposLoadedListener;
 
     public PistasActivity() {
     }
 
-   /* public PistasActivity(OnReposLoadedListener onReposLoadedListener) {
+  /*  public PistasActivity(OnReposLoadedListener onReposLoadedListener) {
         mOnReposLoadedListener = onReposLoadedListener;
     }*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,34 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new PistaAdapter(new ArrayList<Binding>(),this);
 
-        loadPistas();
+        mPistaRepository = PistasRepository.getInstance(TeamMatchDataBase.getInstance(this).getDao(), PistasNetworkDataSource.getInstance());
+        mPistaRepository.getCurrentRepos().observe(this, new Observer<List<Pista>>() {
+            @Override
+            public void onChanged(List<Pista> pistas) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.swap(obtenerBindingDesdeListaPistas(pistas));//Se mete esta llamada aquí porque es una llamada asincrona.
+                    }
+                });
+            }
+        });
+
+        mPistaRepository.setPista();
+
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPistaRepository.doFetchPistas();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+
+
+        //loadPistas();
 
         recyclerView.setAdapter(mAdapter);
 
@@ -70,7 +105,7 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         buscadorPistas.setOnQueryTextListener(this);
     }
 
-    public void loadPistas(){
+  /*  public void loadPistas(){
         // Create a very simple REST adapter which points to the API.
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://opendata.caceres.es/GetData/")
@@ -100,7 +135,7 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
             }
         });
 
-    }
+    }*/
 
     @Override
     public void onListInteraction(Binding b) {
@@ -125,16 +160,31 @@ public class PistasActivity extends AppCompatActivity implements PistaAdapter.On
         return false;
     }
 
-    public void insertarPistasEnBD(Pistas p){
-            AppExecutors.getInstance().diskIO().execute(() -> {
+    public List<Pista> insertarPistasEnBD(Pistas p){
+        List<Pista> listaPistasBD = new ArrayList<Pista>();
+
+        AppExecutors.getInstance().diskIO().execute(() -> {
                 TeamMatchDataBase pista_database = TeamMatchDataBase.getInstance(PistasActivity.this);
                 for(Binding binding : p.getResults().getBindings()) {
                     Pista pNueva = new Pista(binding.getFoafName().getValue(), binding.getSchemaAddressAddressLocality().getValue(),"",binding.getGeoLong().getValue(),binding.getGeoLat().getValue());
-                    long id_pista = pista_database.getDao().insertPista(pNueva);
-                    pNueva.setId(id_pista);
+                    listaPistasBD.add(pNueva);
                 }
+
                 log("PISTA INSERTADA: " + pista_database.getDao().getPistaById(7).getNombrePista());
             });
+        log("PISTA INSERTADA: " + listaPistasBD.get(1).getNombrePista());
+        return listaPistasBD;
+
+    }
+
+
+    public List<Binding> obtenerBindingDesdeListaPistas(List<Pista> listaPistas){
+        List<Binding> listaBinding = new ArrayList<Binding>();
+        for(Pista p : listaPistas) {
+            Binding binding = new Binding(null,null,null,null,new GeoLong(p.getGeoLongPista()),new FoafName(p.getNombrePista()),new GeoLat(p.getGeoLatPista()), null,new SchemaAddressAddressLocality(p.getCiudadPista()),new SchemaAddressStreetAddress(p.getCallePista()));
+            listaBinding.add(binding);
+        }
+        return listaBinding;
     }
 
 

@@ -16,6 +16,10 @@ public class GeoLong {
     @Expose
     private String value;
 
+    public GeoLong(String value) {
+        this.value = value;
+    }
+
     public String getDatatype() {
         return datatype;
     }

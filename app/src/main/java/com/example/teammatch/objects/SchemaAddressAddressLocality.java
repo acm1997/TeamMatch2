@@ -13,6 +13,10 @@ public class SchemaAddressAddressLocality {
     @Expose
     private String value;
 
+    public SchemaAddressAddressLocality(String value) {
+        this.value = value;
+    }
+
     public String getType() {
         return type;
     }

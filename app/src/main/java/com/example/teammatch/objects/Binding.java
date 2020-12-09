@@ -44,6 +44,21 @@ public class Binding {
     @Expose
     private SchemaAddressStreetAddress schemaAddressStreetAddress;
 
+    public Binding(Uri uri, OmPerteneceAInstalacionDeportiva omPerteneceAInstalacionDeportiva, OmOutdoor omOutdoor, TipoEspacioDeportivo tipoEspacioDeportivo, GeoLong geoLong, FoafName foafName, GeoLat geoLat, SchemaAddressAddressCountry schemaAddressAddressCountry, SchemaAddressAddressLocality schemaAddressAddressLocality, SchemaAddressStreetAddress schemaAddressStreetAddress) {
+        this.uri = uri;
+        this.omPerteneceAInstalacionDeportiva = omPerteneceAInstalacionDeportiva;
+        this.omOutdoor = omOutdoor;
+        this.tipoEspacioDeportivo = tipoEspacioDeportivo;
+        this.geoLong = geoLong;
+        this.foafName = foafName;
+        this.geoLat = geoLat;
+        this.schemaAddressAddressCountry = schemaAddressAddressCountry;
+        this.schemaAddressAddressLocality = schemaAddressAddressLocality;
+        this.schemaAddressStreetAddress = schemaAddressStreetAddress;
+    }
+
+
+
     public Uri getUri() {
         return uri;
     }
