@@ -17,6 +17,7 @@ import com.example.teammatch.objects.User;
 
 import java.util.List;
 
+import static androidx.room.OnConflictStrategy.IGNORE;
 import static androidx.room.OnConflictStrategy.REPLACE;
 
 @Dao

@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.teammatch.EventosRepository;
-import com.example.teammatch.PistasRepository;
 import com.example.teammatch.objects.Evento;
 
 import java.util.List;
 
-public class MainActivityViewModel extends ViewModel {
+public class  EventosActivityViewModel extends ViewModel {
 
     private final EventosRepository mRepository;
     private final LiveData<List<Evento>> mEventos;
@@ -17,12 +16,13 @@ public class MainActivityViewModel extends ViewModel {
 
 
     //Constructor
-    public MainActivityViewModel(EventosRepository repository){
+    public EventosActivityViewModel(EventosRepository repository){
         mRepository = repository;
         mEventos = mRepository.getCurrentEventos();
     }
 
     //Peticion de Eventos a la BD
+    //todo HAY QUE LLAMAR AL DOfETCHT NO AL GETcURRENT
     public void onRefresh(){
         mRepository.getCurrentEventos();
     }

@@ -40,6 +40,7 @@ public class PistasRepository {
         mPistasNetworkDataSource = pistasNetworkDataSource;
         // LiveData that fetches bildings from network. Cargo pistas.
         LiveData<List<Pista>> networkData = mPistasNetworkDataSource.getCurrentRepos();
+        //Log.d(LOG_TAG, "Carga" + networkData.getValue().size() );
         // observe the network LiveData que me llega de pistas.
         // If that LiveData changes, update the database.
         networkData.observeForever(newPistasFromNetwork -> {
@@ -49,9 +50,10 @@ public class PistasRepository {
                 // Deleting cached repos of user
                 if (newPistasFromNetwork != null){
                     mTeamMatchDao.deleteAllPistas();
+                    Log.d(LOG_TAG, "New values delete in Room");
                 }
                 // Insert our new repos into local database
-
+                Log.d(LOG_TAG, "SIze in bd"+ networkData.getValue().size());
                 mTeamMatchDao.bulkInsert(networkData.getValue());
                 Log.d(LOG_TAG, "New values inserted in Room");
             });
@@ -68,7 +70,7 @@ public class PistasRepository {
     }
 
 
-    public LiveData<List<Pista>> getCurrentRepos() {
+    public LiveData<List<Pista>> getCurrentPistas() {
         // Return LiveData from Room. Use Transformation to get owner
         //Ahora devolvemos una transformación.
         //Cogemos LiveData

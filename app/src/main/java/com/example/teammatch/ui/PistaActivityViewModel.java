@@ -19,7 +19,8 @@ public class PistaActivityViewModel extends ViewModel {
 
     public PistaActivityViewModel(PistasRepository repository){
         mRepository = repository;
-        mPistas = mRepository.getCurrentRepos();
+        mRepository.setPista();
+        mPistas = mRepository.getCurrentPistas();
     }
 
     public void onRefresh(){

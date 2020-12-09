@@ -38,7 +38,6 @@ public class EventosRepository {
         Log.d(LOG_TAG, "Eventos cargados: "+ mTeamMatchDao.getLiveDataAllEventos().getValue());
 
         return mTeamMatchDao.getLiveDataAllEventos();
-
     }
 
 }

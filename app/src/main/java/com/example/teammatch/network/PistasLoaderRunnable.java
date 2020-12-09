@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PistasLoaderRunnable implements Runnable{
-    private static final String TAG = "Pistas: ";
+    private static final String TAG = "PistasLoader: ";
 
 
     private final OnReposLoadedListener mOnReposLoadedListener;
@@ -47,6 +47,7 @@ public class PistasLoaderRunnable implements Runnable{
         try {
             Response<Pistas> response = call.execute();
             Pistas p = response.body();
+            log("PISTA SIZEeeee: " + p.getResults().getBindings().size());
             AppExecutors.getInstance().mainThread().execute(() -> mOnReposLoadedListener.onReposLoaded(p.getResults().getBindings()));
         }
         catch (IOException e){
@@ -55,6 +56,16 @@ public class PistasLoaderRunnable implements Runnable{
 
 
     }
-
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
+    }
 }
+
+
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.teammatch.EventosRepository;
-import com.example.teammatch.PistasRepository;
 
 public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory{
     private final EventosRepository mRepository;
@@ -15,6 +14,6 @@ public class MainViewModelFactory extends ViewModelProvider.NewInstanceFactory{
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        return (T) new MainActivityViewModel(mRepository);
+        return (T) new EventosActivityViewModel(mRepository);
     }
 }

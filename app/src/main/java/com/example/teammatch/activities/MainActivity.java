@@ -2,7 +2,6 @@ package com.example.teammatch.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,15 +20,11 @@ import com.example.teammatch.AppContainer;
 import com.example.teammatch.AppExecutors;
 import com.example.teammatch.EventosRepository;
 import com.example.teammatch.MyApplication;
-import com.example.teammatch.PistasRepository;
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.EventAdapter;
-import com.example.teammatch.network.PistasNetworkDataSource;
 import com.example.teammatch.objects.Evento;
-import com.example.teammatch.objects.Pista;
-import com.example.teammatch.objects.User;
 import com.example.teammatch.room_db.TeamMatchDataBase;
-import com.example.teammatch.ui.MainActivityViewModel;
+import com.example.teammatch.ui.EventosActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -137,13 +131,13 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mlayoutManager);
 
         //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
-        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        MainActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(MainActivityViewModel.class);
+       /* AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        EventosActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(EventosActivityViewModel.class);
         mViewModel.getEventos().observe(this, eventos -> {
             mAdapter.load(eventos);
-        });
+        });*/
 
-   /*     mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
+        mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Evento item) {
                 Intent eventoIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
@@ -155,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(eventoIntent, GO_DETAILS_ITEM);
             }
         });
-*/
+
         mRecyclerView.setAdapter(mAdapter);
     }
 
