@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activities.MyProfileActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView_imgprofile"
         android:layout_width="129dp"
         android:layout_height="129dp"

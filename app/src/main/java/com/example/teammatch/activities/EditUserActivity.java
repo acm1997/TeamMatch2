@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -66,9 +67,10 @@ public class EditUserActivity extends AppCompatActivity {
         String name = preferences.getString("username", null);
         String email = preferences.getString("email", null);
         String password = preferences.getString("password", null);
+        String imagePath = preferences.getString("path", null);
 
         //Mostrar datos actuales en los campos del usuario
-        showDataUser(usuario_id, name, email, password);
+        showDataUser(usuario_id, name, email, password, imagePath);
 
         TeamMatchDataBase.getInstance(this);
 
@@ -86,7 +88,7 @@ public class EditUserActivity extends AppCompatActivity {
                     if(validacion_editar){
                         TeamMatchDataBase userdatabase = TeamMatchDataBase.getInstance(getApplicationContext());
                         TeamMatchDAO userdao = userdatabase.getDao();
-                        User userupdate = new User(usuario_id, editusername, editemail, editpassword, imgPath);
+                        User userupdate = new User(usuario_id, editusername, editemail, editpassword, imagePath);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -95,6 +97,7 @@ public class EditUserActivity extends AppCompatActivity {
                                 editor.putString("username", userupdate.getUsername());
                                 editor.putString("email", userupdate.getEmail());
                                 editor.putString("password", userupdate.getPassword());
+                                editor.putString("path", imgPath);
                                 editor.commit();
                                 userdao.update(userupdate);
                                 String username = userupdate.getUsername();
@@ -122,7 +125,7 @@ public class EditUserActivity extends AppCompatActivity {
                         if(usuario_id > 0 && name != null && email != null && password != null){
                             TeamMatchDataBase userdatabase = TeamMatchDataBase.getInstance(getApplicationContext());
                             TeamMatchDAO userdao = userdatabase.getDao();
-                            User userdelete = new User(usuario_id, name, email, password, imgPath);
+                            User userdelete = new User(usuario_id, name, email, password, imagePath);
 
                             new Thread(new Runnable() {
                                 @Override
@@ -147,11 +150,14 @@ public class EditUserActivity extends AppCompatActivity {
             }
         });
     }
-    public void showDataUser(Long usuario_id, String username, String email, String password){
+    public void showDataUser(Long usuario_id, String username, String email, String password, String imageUserPath){
         if(usuario_id > 0 && username != null && email != null && password != null){
             eUsername.setText(username);
             eEmail.setText(email);
             ePassword.setText(password);
+            Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/"+ imageUserPath);
+
+            imgProfile.setImageBitmap(myBitmap);
         }
     }
 

@@ -53,7 +53,6 @@ public class MyProfileActivity extends AppCompatActivity {
     private TextView tname;
     private Button btn_EditP;
     private ImageView img;
-    String image_path;
 
     private SharedPreferences preferences;
 
@@ -84,11 +83,12 @@ public class MyProfileActivity extends AppCompatActivity {
         String name = preferences.getString("username", null);
         String email = preferences.getString("email", null);
         String password = preferences.getString("password", null);
-        User u = new User(getIntent());
+        String image_path = preferences.getString("path", null);
 
         if(usuario_id > 0 && name != null && email != null && password != null){
             tname.setText(name);
-            Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/"+ u.getUserPhotoPath());
+            log("Imagen"+image_path);
+            Bitmap myBitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Imagenes/"+ image_path);
 
             img.setImageBitmap(myBitmap);
         }
