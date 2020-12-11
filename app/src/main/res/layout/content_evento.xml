@@ -17,10 +17,22 @@
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_navigation"
-        android:layout_below="@+id/toolbar"
         android:scrollbars="vertical"
         tools:itemCount="9" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/my_recycler_view"
+        android:layout_alignTop="@+id/my_recycler_view"
+        android:layout_alignEnd="@+id/my_recycler_view"
+        android:layout_alignBottom="@+id/my_recycler_view"
+        android:layout_marginStart="166dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="169dp"
+        android:layout_marginBottom="77dp" />
 
 
 </RelativeLayout>

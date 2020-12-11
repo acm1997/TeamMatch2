@@ -8,7 +8,7 @@ import com.example.teammatch.objects.Evento;
 
 import java.util.List;
 
-public class EventosCreadosFragmentViewModel extends ViewModel {
+public class EventosParticipacionFragmentViewModel extends ViewModel {
     private static final String LOG_TAG = EventosRepository.class.getSimpleName();
 
     private final EventosRepository mRepository;
@@ -17,9 +17,9 @@ public class EventosCreadosFragmentViewModel extends ViewModel {
 
 
     //Constructor
-    public EventosCreadosFragmentViewModel(EventosRepository repository){
+    public EventosParticipacionFragmentViewModel(EventosRepository repository){
         mRepository = repository;
-        mEventosCreados = mRepository.getCurrentEventosCreados();
+        mEventosCreados = mRepository.getCurrentEventosParticipacion();
     }
 
     public void setUserID(long userID) {
@@ -33,7 +33,7 @@ public class EventosCreadosFragmentViewModel extends ViewModel {
        // mRepository.getCurrentEventosCreados(userID);
     }
 
-    public LiveData<List<Evento>> getEventosCreados() {
+    public LiveData<List<Evento>> getEventosParticipacion() {
         return mEventosCreados;
     }
 

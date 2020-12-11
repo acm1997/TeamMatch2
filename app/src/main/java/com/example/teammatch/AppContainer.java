@@ -7,6 +7,8 @@ import com.example.teammatch.network.PistasNetworkDataSource;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.room_db.TeamMatchDataBase;
 import com.example.teammatch.ui.EquipoViewModelFactory;
+import com.example.teammatch.ui.EventoCreadoViewModelFactory;
+import com.example.teammatch.ui.EventoParticipacionViewModelFactory;
 import com.example.teammatch.ui.EventoViewModelFactory;
 import com.example.teammatch.ui.PistaViewModelFactory;
 
@@ -25,9 +27,12 @@ public class  AppContainer {
 
 
     private static final String TAG = "AppContainer: ";
-
+    //Eventos creados
     public EventosRepository repositoryEventosCreados;
-    public EventoViewModelFactory factoryEventosCreados;
+    public EventoCreadoViewModelFactory factoryEventosCreados;
+    //Eventos participacion
+    public EventosRepository repositoryEventosParticipacion;
+    public EventoParticipacionViewModelFactory factoryEventosParticipacion;
 
 
     public AppContainer(Context context){
@@ -48,7 +53,11 @@ public class  AppContainer {
 
         //Inicar Eventos Creados
         repositoryEventosCreados = EventosRepository.getInstance(database.getDao());
-        factoryEventosCreados = new EventoViewModelFactory(repositoryEventosCreados);
+        factoryEventosCreados = new EventoCreadoViewModelFactory(repositoryEventosCreados);
+
+        //Inicar Eventos Creados
+        repositoryEventosParticipacion = EventosRepository.getInstance(database.getDao());
+        factoryEventosParticipacion = new EventoParticipacionViewModelFactory(repositoryEventosParticipacion);
 
 
     }

@@ -3,6 +3,7 @@ package com.example.teammatch.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class EventosCreadosFragment extends Fragment {
     private EventAdapter mAdapter;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private static final String TAG = "FragmentEventosCreados";
 
 
     @Override
@@ -57,12 +59,14 @@ public class EventosCreadosFragment extends Fragment {
         mRecyclerView.setLayoutManager(mlayoutManager);
 
         AppContainer appContainer = ((MyApplication) this.requireActivity().getApplication()).appContainer;
-        EventosCreadosFragmentViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(EventosCreadosFragmentViewModel.class);
+        EventosCreadosFragmentViewModel mViewModel = new ViewModelProvider(this.requireActivity(), appContainer.factoryEventosCreados).get(EventosCreadosFragmentViewModel.class);
         mViewModel.getEventosCreados().observe(this.requireActivity(), eventos -> {
+            log("SIZE" + eventos.size());
             mAdapter.load(eventos);
             if (eventos != null ) showReposDataView();
             else showLoading();
         });
+        mViewModel.setUserID(usuario_id);
 
 
         mAdapter = new EventAdapter(item -> {
@@ -99,5 +103,14 @@ public class EventosCreadosFragment extends Fragment {
             }
         });
     }*/
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
+    }
 
 }

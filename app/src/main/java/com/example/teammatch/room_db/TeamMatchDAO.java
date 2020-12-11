@@ -49,6 +49,7 @@ public interface TeamMatchDAO {
     @Query("SELECT * FROM evento WHERE userCreatorId = :userCreatorId")
     public LiveData<List<Evento>> getAllEventosByUserId_LiveData(long userCreatorId);
 
+
     @Query("SELECT * FROM evento where nombre= :nombre")
     public List<Evento> SearchByName(String nombre);
 
@@ -108,6 +109,11 @@ public interface TeamMatchDAO {
             "JOIN participacionuserevento ON evento.id = participacionuserevento.idEvento " +
             "WHERE participacionuserevento.idUser = :idUser")
     public List<Evento> getAllParticipacionesByUser(long idUser);
+
+    @Query("SELECT * FROM evento " +
+            "JOIN participacionuserevento ON evento.id = participacionuserevento.idEvento " +
+            "WHERE participacionuserevento.idUser = :idUser")
+    public LiveData <List<Evento>> getAllParticipacionesByUser_LiveData(long idUser);
 
     @Query("SELECT * FROM usuarios " +
             "JOIN participacionuserevento ON usuarios.id = participacionuserevento.idUser " +
