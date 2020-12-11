@@ -34,6 +34,8 @@ public class BuscarActivity extends AppCompatActivity implements SearchView.OnQu
     private Button btn_voleibol;
     private Button btn_tenis;
 
+    public static final int GO_DETAILS_ITEM = 0;
+
     private SharedPreferences preferences;
 
     private static final String TAG = "BUSCAR_ACTIVITY";
@@ -103,8 +105,9 @@ public class BuscarActivity extends AppCompatActivity implements SearchView.OnQu
         mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Evento item) {
-                Snackbar.make(listaEventos, "Evento" +  item.getNombre() + "clicked", Snackbar.LENGTH_SHORT).show();
-            }
+                Intent eventoIntent = new Intent(BuscarActivity.this, EventDetailsActivity.class);
+                Evento.packageIntent(eventoIntent,item.getNombre(),item.FORMAT.format(item.getFecha()),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud(), item.getEventoPhotoPath());
+                startActivityForResult(eventoIntent, GO_DETAILS_ITEM);            }
         });
 
         listaEventos.setAdapter(mAdapter);

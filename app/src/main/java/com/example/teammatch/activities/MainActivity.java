@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
 
-        //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         EventosActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEventos).get(EventosActivityViewModel.class);
         mViewModel.getEventos().observe(this, eventos -> {
