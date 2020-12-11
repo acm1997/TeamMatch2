@@ -33,7 +33,7 @@ public class User {
     private String Email;
     @ColumnInfo(name = "password")
     private String Password;
-
+    @ColumnInfo(name = "path")
     private String UserPhotoPath;
 
     @Ignore
