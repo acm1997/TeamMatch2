@@ -12,14 +12,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.teammatch.AppContainer;
 import com.example.teammatch.AppExecutors;
+import com.example.teammatch.MyApplication;
 import com.example.teammatch.R;
 import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.ParticipacionUserEvento;
@@ -36,6 +41,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     private static final String TAG = "DETALLES_ACTIVITY";
     private static boolean Participo;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +51,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
         Long usuario_id = preferences.getLong("usuario_id", 0);
 
-        Evento e = new Evento(getIntent());
-        e.setId(getIntent().getLongExtra("ID", 0));
+        Evento e = new Evento();
+
+
+
 
         Toolbar toolbarShowName = (Toolbar) findViewById(R.id.toolbar_nameEvent);
         setSupportActionBar(toolbarShowName);
@@ -175,6 +184,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
 
     }
+
+
     private void log(String msg) {
         try {
             Thread.sleep(500);

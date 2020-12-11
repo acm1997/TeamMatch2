@@ -7,6 +7,8 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.EventDetailsActivity">
 
+    <include layout="@layout/content_details_event" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -38,8 +40,6 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_details_event" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

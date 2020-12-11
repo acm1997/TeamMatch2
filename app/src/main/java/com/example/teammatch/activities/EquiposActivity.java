@@ -3,17 +3,27 @@ package com.example.teammatch.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.teammatch.AppContainer;
 import com.example.teammatch.AppExecutors;
+import com.example.teammatch.EquiposRepository;
+import com.example.teammatch.EventosRepository;
+import com.example.teammatch.MyApplication;
 import com.example.teammatch.R;
 import com.example.teammatch.adapters.EquipoAdapter;
 import com.example.teammatch.objects.Equipo;
 import com.example.teammatch.room_db.TeamMatchDataBase;
+import com.example.teammatch.ui.EquiposActivityViewModel;
+import com.example.teammatch.ui.EventosActivityViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -24,11 +34,17 @@ import static com.example.teammatch.activities.MainActivity.ADD_EQUIPO_REQUEST;
 
 public class EquiposActivity extends AppCompatActivity {
 
+    private static final String TAG = "EQUIPO ACTIVITY: ";
     private RecyclerView mRecyclerViewEquipos;
     private RecyclerView.LayoutManager mLayoutManagerEquipos;
     private EquipoAdapter mAdapaterEquipos;
 
+    private ProgressBar mProgressBar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private SharedPreferences preferences;
+    private EquiposRepository mEsquiposRepository;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +103,20 @@ public class EquiposActivity extends AppCompatActivity {
         mLayoutManagerEquipos = new LinearLayoutManager(this);
         mRecyclerViewEquipos.setLayoutManager(mLayoutManagerEquipos);
 
+        mProgressBar = findViewById(R.id.progressBar);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        //MainViewModelFactory factory = InjectorUtils.provideMainActivityViewModelFactory(this.getApplicationContext());
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        EquiposActivityViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryEquipos).get(EquiposActivityViewModel.class);
+        mViewModel.getmEquipos().observe(this, equipos -> {
+            mAdapaterEquipos.load(equipos);
+            if (equipos != null ) showReposDataView();
+            else showLoading();
+        });
+
+
+
         mAdapaterEquipos = new EquipoAdapter(item -> {
             Snackbar.make(mRecyclerViewEquipos, "Equipo" +  item.getNombre() + "clicked", Snackbar.LENGTH_SHORT).show(); //TODO enviar a ver equipo
         });
@@ -108,7 +138,21 @@ public class EquiposActivity extends AppCompatActivity {
             });
         }
     }
-    @Override
+    private void showReposDataView(){
+        mProgressBar.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
+        mRecyclerViewEquipos.setVisibility(View.VISIBLE);
+        log("EQUIPO HOLA: ");
+    }
+    private void showLoading(){
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerViewEquipos.setVisibility(View.INVISIBLE);
+        log("EQUIPO Adios: ");
+    }
+
+    //YA NO HACEN FALTA ESTOS METODOS DEL ACTIVITY.
+
+  /*  @Override
     public void onResume() {
         super.onResume();
 
@@ -128,14 +172,24 @@ public class EquiposActivity extends AppCompatActivity {
     protected void onDestroy() {
         TeamMatchDataBase.getInstance(this).close();
         super.onDestroy();
-    }
+    }*/
 
-    // Load stored Equipos
+/*    // Load stored Equipos
     private void loadItems() {
         AppExecutors.getInstance().diskIO().execute(() -> {
             List<Equipo> equipos = TeamMatchDataBase.getInstance(EquiposActivity.this).getDao().getAllEquipos();
             runOnUiThread(() -> mAdapaterEquipos.load(equipos));
         });
+    }*/
+
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 
 }

@@ -30,6 +30,7 @@ public interface TeamMatchDAO {
     @Query("SELECT * FROM evento")
     LiveData<List<Evento>> getLiveDataAllEventos();
 
+
     @Insert
     public long insertEvento(Evento evento);
 
@@ -57,6 +58,9 @@ public interface TeamMatchDAO {
     //  EQUIPOS
     @Query("SELECT * FROM equipo")
     public List<Equipo> getAllEquipos();
+
+    @Query("SELECT * FROM equipo")
+    LiveData<List<Equipo>> getLiveDataAllEquipos();
 
     @Insert
     public long insertEquipo(Equipo equipo);

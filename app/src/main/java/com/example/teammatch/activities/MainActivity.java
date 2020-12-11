@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
 
-    private EventosRepository mEventosRepository;
-
 
 
     @Override
@@ -146,12 +144,14 @@ public class MainActivity extends AppCompatActivity {
             else showLoading();
         });
 
-        /*mSwipeRefreshLayout.setOnRefreshListener(mViewModel::onRefresh);
-        mSwipeRefreshLayout.setRefreshing(false);*/
+        mSwipeRefreshLayout.setOnRefreshListener(mViewModel::onRefresh);
+        mSwipeRefreshLayout.setRefreshing(false);
 
         mAdapter = new EventAdapter(new EventAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Evento item) {
+
+
                 Intent eventoIntent = new Intent(MainActivity.this, EventDetailsActivity.class);
                 log("EVENTO DETALLADO: "+ item.toString()+ " con fecha: "+ item.getFecha());
                 Evento.packageIntent(eventoIntent,item.getNombre(),item.FORMAT.format(item.getFecha()),item.getParticipantes(),item.getDescripcion(),item.getDeporte(),item.getPista(),item.getUserCreatorId(), item.getLatitud(),item.getLongitud(), item.getEventoPhotoPath());
