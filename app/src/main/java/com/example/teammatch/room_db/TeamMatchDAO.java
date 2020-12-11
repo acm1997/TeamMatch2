@@ -45,6 +45,9 @@ public interface TeamMatchDAO {
     @Query("SELECT * FROM evento WHERE userCreatorId = :userCreatorId")
     public List<Evento> getAllEventosByUserId(long userCreatorId);
 
+    @Query("SELECT * FROM evento WHERE userCreatorId = :userCreatorId")
+    public LiveData<List<Evento>> getAllEventosByUserId_LiveData(long userCreatorId);
+
     @Query("SELECT * FROM evento where nombre= :nombre")
     public List<Evento> SearchByName(String nombre);
 

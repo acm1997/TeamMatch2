@@ -1,5 +1,6 @@
 package com.example.teammatch;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,6 +11,8 @@ import com.example.teammatch.objects.Pista;
 import com.example.teammatch.room_db.TeamMatchDAO;
 
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class EventosRepository {
 
@@ -36,6 +39,10 @@ public class EventosRepository {
         //Ahora devolvemos una transformación.
         //Cogemos LiveData
         return mTeamMatchDao.getLiveDataAllEventos();
+    }
+
+    public LiveData<List<Evento>> getCurrentEventosCreados(long userID){
+        return mTeamMatchDao.getAllEventosByUserId_LiveData(userID);
     }
 
 }

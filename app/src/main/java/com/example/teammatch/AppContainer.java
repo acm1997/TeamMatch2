@@ -10,6 +10,7 @@ import com.example.teammatch.ui.PistaViewModelFactory;
 
 public class  AppContainer {
 
+    private static final String TAG = "AppContainer: ";
     private TeamMatchDataBase database;
     private PistasNetworkDataSource networkDataSource;
     public PistasRepository repositoryPistas;
@@ -17,7 +18,9 @@ public class  AppContainer {
 
     public EventosRepository repositoryEventos;
     public EventoViewModelFactory factoryEventos;
-    private static final String TAG = "AppContainer: ";
+
+    public EventosRepository repositoryEventosCreados;
+    public EventoViewModelFactory factoryEventosCreados;
 
 
     public AppContainer(Context context){
@@ -29,6 +32,11 @@ public class  AppContainer {
         //Iniciar lo de eventos.
         repositoryEventos = EventosRepository.getInstance(database.getDao());
         factoryEventos = new EventoViewModelFactory(repositoryEventos);
+
+        //Inicar Eventos Creados
+        repositoryEventosCreados = EventosRepository.getInstance(database.getDao());
+        factoryEventosCreados = new EventoViewModelFactory(repositoryEventosCreados);
+
 
     }
     private void log(String msg) {

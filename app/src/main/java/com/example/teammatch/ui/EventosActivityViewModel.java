@@ -14,7 +14,6 @@ public class  EventosActivityViewModel extends ViewModel {
     private final LiveData<List<Evento>> mEventos;
 
 
-
     //Constructor
     public EventosActivityViewModel(EventosRepository repository){
         mRepository = repository;

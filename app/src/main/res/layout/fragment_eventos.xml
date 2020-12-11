@@ -16,4 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.029" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/my_recycler_view_EventosParticipacion"
+        app:layout_constraintEnd_toEndOf="@+id/my_recycler_view_EventosParticipacion"
+        app:layout_constraintStart_toStartOf="@+id/my_recycler_view_EventosParticipacion"
+        app:layout_constraintTop_toTopOf="@+id/my_recycler_view_EventosParticipacion" />
 </androidx.constraintlayout.widget.ConstraintLayout>
