@@ -51,8 +51,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("Preferences", MODE_PRIVATE);
         Long usuario_id = preferences.getLong("usuario_id", 0);
 
-        Evento e = new Evento();
-
+        Evento e = new Evento(getIntent());
+        e.setId(getIntent().getLongExtra("ID", 0));
 
 
 
