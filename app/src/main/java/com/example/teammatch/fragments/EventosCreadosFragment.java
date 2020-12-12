@@ -72,6 +72,7 @@ public class EventosCreadosFragment extends Fragment {
         mAdapter = new EventAdapter(item -> {
             Intent eventoIntent = new Intent(getActivity(), EventDetailsActivity.class);
             Evento.packageIntent(eventoIntent, item.getNombre(), item.getFecha().toString(), item.getParticipantes(), item.getDescripcion(), item.getDeporte(), item.getPista(), item.getUserCreatorId(), item.getLatitud(), item.getLongitud(), item.getEventoPhotoPath());
+            eventoIntent.putExtra("ID", item.getId());
             startActivity(eventoIntent);
         });
 

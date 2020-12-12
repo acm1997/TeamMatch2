@@ -10,6 +10,7 @@ import com.example.teammatch.ui.EquipoViewModelFactory;
 import com.example.teammatch.ui.EventoCreadoViewModelFactory;
 import com.example.teammatch.ui.EventoParticipacionViewModelFactory;
 import com.example.teammatch.ui.EventoViewModelFactory;
+import com.example.teammatch.ui.ParticipacionViewModelFactory;
 import com.example.teammatch.ui.PistaViewModelFactory;
 
 public class  AppContainer {
@@ -24,6 +25,9 @@ public class  AppContainer {
 
     public EquiposRepository repositoryEquipos;
     public EquipoViewModelFactory factoryEquipos;
+
+    public ParticipacionRepository repositoryParticipacion;
+    public ParticipacionViewModelFactory factoryParticipacion;
 
 
     private static final String TAG = "AppContainer: ";
@@ -55,10 +59,13 @@ public class  AppContainer {
         repositoryEventosCreados = EventosRepository.getInstance(database.getDao());
         factoryEventosCreados = new EventoCreadoViewModelFactory(repositoryEventosCreados);
 
-        //Inicar Eventos Creados
+        //Inicar Eventos Participacion
         repositoryEventosParticipacion = EventosRepository.getInstance(database.getDao());
         factoryEventosParticipacion = new EventoParticipacionViewModelFactory(repositoryEventosParticipacion);
 
+        //Inicar Participacion
+        repositoryParticipacion = ParticipacionRepository.getInstance(database.getDao());
+        factoryParticipacion = new ParticipacionViewModelFactory(repositoryParticipacion);
 
     }
     private void log(String msg) {

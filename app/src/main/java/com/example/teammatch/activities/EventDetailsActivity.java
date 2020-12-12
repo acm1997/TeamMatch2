@@ -30,6 +30,8 @@ import com.example.teammatch.objects.Evento;
 import com.example.teammatch.objects.ParticipacionUserEvento;
 import com.example.teammatch.room_db.TeamMatchDAO;
 import com.example.teammatch.room_db.TeamMatchDataBase;
+import com.example.teammatch.ui.EventosActivityViewModel;
+import com.example.teammatch.ui.ParticipacionViewModel;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -146,7 +148,25 @@ public class EventDetailsActivity extends AppCompatActivity {
         if(usuario_id > 0){
             sw.setVisibility(View.VISIBLE);
 
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            log("Datos"+e.getId()+"---"+usuario_id);
+
+            AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+            ParticipacionViewModel mViewModel = new ViewModelProvider(this, appContainer.factoryParticipacion).get(ParticipacionViewModel.class);
+            mViewModel.getParticipacion().observe(this, participacion -> {
+
+                if(Objects.equals(participacion, null)){
+                    log("False");
+                    sw.setChecked(false);
+                    Participo = false;
+                }else{
+                    sw.setChecked(true);
+                    log("True");
+                    Participo = true;
+                }
+            });
+            mViewModel.seteventoUsuario(e.getId(),usuario_id);
+
+           /* AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
                     TeamMatchDataBase teamMatchDataBase = TeamMatchDataBase.getInstance(EventDetailsActivity.this);
@@ -159,7 +179,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                         Participo = true;
                     }
                 }
-            });
+            });*/
 
             sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked && !Participo) {
@@ -167,7 +187,9 @@ public class EventDetailsActivity extends AppCompatActivity {
                     AppExecutors.getInstance().diskIO().execute(() -> {
                         TeamMatchDataBase teamMatchDataBase = TeamMatchDataBase.getInstance(EventDetailsActivity.this);
                         long idParticipacion = teamMatchDataBase.getDao().insertParticipacion(nuevoparticipante);
-                        nuevoparticipante.setId(idParticipacion);
+                        nuevoparticipante.setId(e.getId());
+                        log("Datos......."+e.getId()+"---"+usuario_id);
+                        log("Datos......."+nuevoparticipante.getId()+"---"+nuevoparticipante.getIdEvento()+"---"+nuevoparticipante.getIdUser());
                         Participo = true;
                     });
 

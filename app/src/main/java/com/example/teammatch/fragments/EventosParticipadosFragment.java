@@ -3,6 +3,7 @@ package com.example.teammatch.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class EventosParticipadosFragment extends Fragment {
     private EventAdapter mAdapter;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
-
+    private static final String TAG = "FRAGMENT PARTICIPO";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_eventos, container, false);
@@ -53,15 +54,18 @@ public class EventosParticipadosFragment extends Fragment {
 
         AppContainer appContainer = ((MyApplication) this.requireActivity().getApplication()).appContainer;
         EventosParticipacionFragmentViewModel mViewModel = new ViewModelProvider(this.requireActivity(), appContainer.factoryEventosParticipacion).get(EventosParticipacionFragmentViewModel.class);
-        mViewModel.getEventosParticipacion().observe(this.requireActivity(), eventos -> {
-            mAdapter.load(eventos);
-            if (eventos != null ) showReposDataView();
+        mViewModel.getEventosParticipacion().observe(this.requireActivity(), participacion -> {
+            if (participacion != null &&  participacion.size()>0)
+            log("ID LOAD"+ participacion.get(0).getId());
+            mAdapter.load(participacion);
+            if (participacion != null ) showReposDataView();
             else showLoading();
         });
 
         mAdapter = new EventAdapter(item -> {
             Intent eventoIntent = new Intent(getActivity(), EventDetailsActivity.class);
             Evento.packageIntent(eventoIntent, item.getNombre(), item.getFecha().toString(), item.getParticipantes(), item.getDescripcion(), item.getDeporte(), item.getPista(), item.getUserCreatorId(), item.getLatitud(), item.getLongitud(), item.getEventoPhotoPath());
+            eventoIntent.putExtra("ID", item.getId());
             startActivity(eventoIntent);
         });
 
@@ -89,5 +93,14 @@ public class EventosParticipadosFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> mAdapter.load(eventosParticipacion));
             }
         });
+    }
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 }

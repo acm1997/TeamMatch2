@@ -64,4 +64,8 @@ public class EventosRepository {
     public LiveData<List<Evento>> getCurrentEventosParticipacion() {
         return Transformations.switchMap(userFilterLiveData, mTeamMatchDao::getAllParticipacionesByUser_LiveData);
     }
+
+    public LiveData<List<Evento>> getCurrentParticipacion() {
+        return Transformations.switchMap(userFilterLiveData, mTeamMatchDao::getAllParticipacionesByUser_LiveData);
+    }
 }

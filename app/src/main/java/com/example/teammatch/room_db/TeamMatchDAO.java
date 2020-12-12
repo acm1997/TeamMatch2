@@ -99,11 +99,14 @@ public interface TeamMatchDAO {
 
     // PARTICIPACION DE USUARIOS EN EVENTOS
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     public long insertParticipacion(ParticipacionUserEvento participacionUserEvento);
 
     @Query("SELECT * FROM participacionUserEvento WHERE idUser = :idUser AND idEvento = :idEvento")
     public ParticipacionUserEvento getParticipacion(long idUser, long idEvento);
+
+    @Query("SELECT * FROM participacionUserEvento WHERE idUser = :idUser AND idEvento = :idEvento")
+    public LiveData <ParticipacionUserEvento> getParticipacion_LiveData( long idEvento, long idUser);
 
     @Query("SELECT * FROM evento " +
             "JOIN participacionuserevento ON evento.id = participacionuserevento.idEvento " +
