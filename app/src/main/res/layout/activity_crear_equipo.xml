@@ -87,6 +87,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.236" />
 
+    <EditText
+        android:id="@+id/tagNumMiembros"
+        android:layout_width="334dp"
+        android:layout_height="51dp"
+        android:ems="10"
+        android:hint="@string/NUM_MIEMBROS"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.397" />
+
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
@@ -111,20 +125,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.05" />
-
-    <EditText
-        android:id="@+id/tagNumMiembros"
-        android:layout_width="334dp"
-        android:layout_height="51dp"
-        android:ems="10"
-        android:hint="@string/NUM_MIEMBROS"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397" />
 
     <TextView
         android:id="@+id/textView10"
